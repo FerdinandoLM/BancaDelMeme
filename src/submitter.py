@@ -142,4 +142,4 @@ def main():
             break
 
 if __name__ == "__main__":
-    main()
+    utils.keep_up(main)

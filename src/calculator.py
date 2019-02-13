@@ -180,4 +180,4 @@ def main():
         sess.close()
 
 if __name__ == "__main__":
-    main()
+    utils.keep_up(main)

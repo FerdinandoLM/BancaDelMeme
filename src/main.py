@@ -120,4 +120,4 @@ def main():
             stopwatch.reset()
 
 if __name__ == "__main__":
-    main()
+    utils.keep_up(main)
