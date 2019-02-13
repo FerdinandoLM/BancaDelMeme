@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Banca del Meme</title>
+    <meta charset="utf-8">
+    <meta name="application-name" content=""/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Inizia oggi ad investire con i migliori trader su r/BancaDelMeme!"/>
+    <meta name="theme-color" content="#212121"/>
+    <link rel="icon" type="image/png" href="resources/favicon/favicon-32x32.png" sizes="32x32"/>
+    <link rel="icon" type="image/png" href="resources/favicon/favicon-32x32.png" sizes="16x16"/>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- christmas snow -->
+    <!-- <script src="js/libs/snowstorm-min.js"></script> -->
+    
+    <!-- materialize -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- page -->
+    <link type="text/css" rel="stylesheet" href="css/index.css"/>
+    <script type="module" src="js/index.js?c=2"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="./index.html" class="brand-logo"><span
+                    class="hide-on-small-only logo-text">Banca del Meme</span></a>
+            <a data-target="mobile-sidebar" class="sidenav-trigger"><i
+                    class="material-icons">menu</i></a>
+
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a class="grey-text" >home</a></li>
+                <li>
+                  <a href="https://github.com/FerdinandoLM/BancaDelMeme" target="_blank">
+                  <img class="icon-32" src="resources/GitHub-Mark-Light-32px.png"/></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <ul class="sidenav" id="mobile-sidebar">
+        <li class="sidenav-top">
+         <h5>menu</h5>
+         <a class="sidenav-close"><i class="material-icons">close</i></a>
+        </li>
+        <li><a id="without-this-everything-brokes">lol</a></li>
+        <li><a class="grey-text">home</a></li>
+        <li><a href="https://github.com/FerdinandoLM/BancaDelMeme/"><img class="icon-32" src="resources/GitHub-Mark-Light-32px.png"
+                                               target="_blank"></a></li>
+    </ul>
+    
+    <div id="announcements-modal" class="modal ">
+    </div>
+
+<!-- PUT PAGE CODE HERE -->
+
+    <div class="container" id="overview">
+        <div class="section">
+
+            <h5></h5>
+            <div class="section">
+              <div class="row">
+                <div class="col s12 m6 homepage-card">
+                  <p>La <a href="https://reddit.com/r/BancaDelMeme" >r/Banca del Meme</a> &egrave; un subreddit
+                   dedicato al mercato degli investimenti sui meme.
+                  </p>
+                  <p>
+                    <a href="#info1" class="waves-effect waves-light btn grey darken-3">
+                    <i class="material-icons left">show_chart</i>learn more</a>
+                  </p>
+                </div>
+                <div class="col s12 m6 homepage-card">
+                  <p>Questo &egrave; un progetto open source, basato su <a href="https://github.com/MemeInvestor/memeinvestor_bot/" >memeinvestor_bot</a>.<br>
+                  Per suggerimenti o dubbi, ci trovi sul nostro <a href="https://reddit.com/r/BancaDelMeme" >subreddit</a></p>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="section">
+                <div class="row">
+                    <div id="info1" class="col s12 m6 l6">
+                        <h4>Comandi</h4>
+                        <p>Per interagire con il bot, devi rispondere al commento di u/BancaDelMeme
+                            presente su ognu post di r/BancaDelMeme oppure ad una delle risposte che ricevi da lui..<br>
+                            <span class=" yellow-text text-darken-3 ">I comandi che appaiono non in una risposta al bot verranno ignorati</span>
+                        </p>
+                        <p>Il bot ha i seguenti comandi:</p>
+                        <ul class="collapsible popout dark-collapsible">
+                            <li>
+                                <div class="collapsible-header"><i class="material-icons">expand_more</i>!investi QUANTITA
+                                </div>
+                                <div class="collapsible-body"><span>Invenste QUANTITA nel post. 24 ore dope, il post verrà valutato
+                                e il tuo investimento si concluder&agrave;. L'investimento minimo possibile è 100 Mem&euro;ro.
+                                </span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header"><i class="material-icons">expand_more</i>!saldo</div>
+                                <div class="collapsible-body"><span>Per sapere quanti Mem&euro;ro hai disposizione per investimenti.</span></div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header"><i class="material-icons">expand_more</i>!bancarotta</div>
+                                <div class="collapsible-body"><span>Chiama questo comando quando sei in bancarotta (nessun investimento attivo e meno di 100 Mem&euro;ro sul tuo conto); il tuo bilancio diventer&agrave; 100 Mem&euro;ro.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header"><i class="material-icons">expand_more</i>!attivi</div>
+                                <div class="collapsible-body"><span>Riceverai in risposta l'elenco dei tuoi investimenti attivi.</span></div>
+                            </li>
+                        </ul>
+
+
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <h4 id="info2">Come funzionano gli investimenti</h4>
+                        <p>Il ritorno del tuo investimento &egrave; determinato da due valori: il
+                        punteggio del post quando investi e il punteggio del post 24 ore dopo.</p>
+                        <p>Per avere una descrizione pi&ugrave; dettagliata, fate riferimento
+                        al paper del subreddit originale:</p>
+                        <p><i><a href="resources/paper.pdf" class="underlined" >Step 3: PROFIT! A Numerical Analysis of ROI in /r/MemeEconomy</a></i></p>
+                        <p><i>Nota:</i> I mercati sono volatili! La formula per il calcolo del ritorno
+                        potrebbbe cambiare in ogni momento.</p>
+                        <h4 id="calculator">Simulatore di Investimento</h4>
+                        <div class="input-field col s12 m12 l6">
+                            <input type="text" id="investment-start-score" class="row"/>
+                            <label for="investment-start-score">Punteggio iniziale</label>
+                        </div>
+                        <div class="input-field col s12 m12 l6">
+                            <input type="text" id="investment-end-score" class=""/>
+                            <label for="investment-end-score">Punteggio dopo 24 ore</label>
+                        </div>
+                        <div class="input-field col s12 m12 l6">
+                            <input type="text" id="investment-amount"/>
+                            <label for="investment-amount">Mem&euro;ro investiti</label>
+                        </div>
+                        <div class="input-field row col s12 m12 l6">
+                            <a  id="investment-calc" class="btn col s6 waves-effect waves-light btn grey darken-3">stima</a>
+                            <div class="col s6 investment-result valign-wrapper"><p id="investment-result">000</p></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 
-@import 'dark-base.css?c=1';
+@import 'pink-base.css?c=1';
 
 /* --[last 24 ticker]-- */
 .ticker-wrap{
@@ -120,11 +120,16 @@
 
 /* --[description row]-- */
 .dark-collapsible .collapsible-header{
-  background-color: #262626 !important;
+  background-color: #234357 !important;
   border-bottom: 2px solid rgba(255,255,255, 0.1) !important;
 }
 .dark-collapsible .collapsible-body{
+  background-color: #234357 !important;
   border-bottom: 0px solid rgba(0,0,0, 0.1) !important;
+}
+
+.dark-collapsible {
+  color: #fff;
 }
 
 .investment-result{
@@ -141,7 +146,7 @@
 }
 /* label focus color */
 .input-field input[type=text]:focus + label {
-  color: #f9a825 !important;
+  color: #000; !important;
 }
 /* label underline focus color */
 .input-field input[type=text]:focus {
@@ -149,6 +154,6 @@
   box-shadow: 0 1px 0 0 #f9a825!important;
 }
 .input-field input[type=text]{
-  color: #f2f2f2;
+  color: #000;
 }
 
