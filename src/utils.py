@@ -87,3 +87,11 @@ def test_reddit_connection(reddit):
         logging.critical("Fatal error. Cannot continue or fix the problem. Bailing out...")
         return False
     return True
+
+def keep_up(function):
+    while True:
+        try:
+            return function()
+        except Exception:
+            logging.exception("Exception, sleeping for 30 secs")
+            time.sleep(30)
