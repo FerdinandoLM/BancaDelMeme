@@ -113,7 +113,7 @@ def main():
     for subreddit in config.SUBREDDITS:
         reddit.subreddit(subreddit).mod.update(description=sidebar_text)
     wikipage = reddit.subreddit('BancaDelMeme').wiki['index']
-    wikipage.edit(.format(sidebar_text))
+    wikipage.edit(sidebar_text)
 
     sess.commit()
 
