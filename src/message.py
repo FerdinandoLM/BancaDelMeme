@@ -229,7 +229,7 @@ def modify_active(active_investments):
             remaining_string = str(td).split(".")[0] + " rimanenti"
         else:
             remaining_string = "in elaborazione"
-        post_url = f"https://www.reddit.com/r/BancaDelMemecomments/{inv.post}"
+        post_url = f"https://www.reddit.com/r/BancaDelMeme/comments/{inv.post}"
         inv_string = f"[#{i}]({post_url}): {inv.amount} Mem€ @ {inv.upvotes} %UPVOTES_WORD% ({remaining_string})"\
             .replace("%UPVOTES_WORD%", utils.upvote_string())
         investments_strings.append(inv_string)
@@ -249,7 +249,7 @@ Il mercato, in questo momento, ha **%NUMBER%** investimenti attivi.
 
 Tutti gli investitori possiedono **%MONEY% Mem€**.
 
-Ci sono %HODL% Mem€** in circolazione su investimenti al momento.
+Ci sono **%HODL% Mem€** in circolazione su investimenti al momento.
 """
 
 def modify_market(inves, cap, invs_cap):
