@@ -1,5 +1,6 @@
 # TODO: add docstrin here
 import time
+import datetime
 import logging
 
 from sqlalchemy import create_engine, func, desc, and_
@@ -11,7 +12,7 @@ import utils
 from models import Investor, Investment
 
 logging.basicConfig(level=logging.INFO)
-localtime = time.localtime(time.time())
+localtime = time.strftime('{%Y-%m-%d %H:%M:%S}')
 sidebar_text_org = """
 /r/BancaDelMeme è un posto dove si puoi comprare, vendere, condividere, fare e investire sui meme liberamente.
 
