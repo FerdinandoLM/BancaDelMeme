@@ -11,7 +11,7 @@ import utils
 from models import Investor, Investment
 
 logging.basicConfig(level=logging.INFO)
-
+localtime = time.localtime(time.time())
 sidebar_text_org = """
 /r/BancaDelMeme è un posto dove si puoi comprare, vendere, condividere, fare e investire sui meme liberamente.
 
@@ -19,8 +19,9 @@ sidebar_text_org = """
 
 **Migliori utenti:**
 
-%TOP_USERS%
-
+%TOP_USERS%  
+&nbsp;
+Ultimo aggiornamento: %LOCALTIME%
 &nbsp;
 
 ^(Questo sub non è ***solo*** per templates. È rivolto a tutti i meme (in italiano), il tutto arricchito con un po' di sano gioco dei mercati)
@@ -107,6 +108,7 @@ def main():
 
     sidebar_text = sidebar_text_org.\
         replace("%TOP_USERS%", top_users_text)
+		replace("%LOCALTIME%", 
 
     logging.info(" -- Updating sidebar text to:")
     logging.info(sidebar_text)
