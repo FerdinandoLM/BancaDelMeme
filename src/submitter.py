@@ -99,7 +99,7 @@ def main():
             bot_reply = submission.reply_wrap(message.invest_no_fee(f"u/{submission.author.name}"))
         else:
             # If a poster doesn't have an account, delete the post
-            # if he has, take 1000 Mem€ and invest them
+            # if he has, take 1000 MemeCoins and invest them
             investor = sess.query(Investor).\
                 filter(Investor.name == submission.author.name).\
                 first()
