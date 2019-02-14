@@ -107,7 +107,7 @@ def main():
         top_users_text += f"{i + 1}|/u/{user.name}|{user.networth} M€\n"
 
     sidebar_text = sidebar_text_org.\
-        replace("%TOP_USERS%", top_users_text)
+        replace("%TOP_USERS%", top_users_text).\
 		replace("%LOCALTIME%", localtime)
 
     logging.info(" -- Updating sidebar text to:")
