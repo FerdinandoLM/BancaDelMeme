@@ -108,7 +108,7 @@ def main():
 
     sidebar_text = sidebar_text_org.\
         replace("%TOP_USERS%", top_users_text)
-		replace("%LOCALTIME%", 
+		replace("%LOCALTIME%", localtime)
 
     logging.info(" -- Updating sidebar text to:")
     logging.info(sidebar_text)
