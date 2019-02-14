@@ -310,16 +310,21 @@ class CommentWorker():
             comment.reply_wrap(message.modify_insuff(investor.balance))
             return
 
+        # 0 upvotes is too strong, so what we do is make around 1 minumum
+        upvotes_now = int(comment.submission.ups)
+        if upvotes_now < 1:
+            upvotes_now = 1
+
         # Sending a confirmation
         response = comment.reply_wrap(message.modify_invest(
             amount,
-            comment.submission.ups,
+            upvotes_now,
             new_balance
         ))
 
         sess.add(Investment(
             post=comment.submission.id,
-            upvotes=comment.submission.ups,
+            upvotes=upvotes_now,
             comment=comment.id,
             name=author,
             amount=amount,
@@ -501,13 +506,36 @@ class CommentWorker():
                 filter(Investor.firm_role == "").\
                 all())
 
-        return comment.reply_wrap(
-            message.modify_firm(
-                investor.firm_role,
-                firm,
-                ceo,
-                execs,
-                traders))
+        # Sometimes flairs can get broken, !firm should reinitiate
+        # the flair on the user
+        # Updating the flair in subreddits
+        flair_role = ''
+        if investor.firm_role == "ceo":
+            flair_role = "CEO"
+        elif investor.firm_role == "exec":
+            flair_role = "Executive"
+        else:
+            flair_role = "Floor Trader"
+
+        if not config.TEST:
+            for subreddit in config.SUBREDDITS:
+                REDDIT.subreddit(subreddit).flair.set(investor.name, f"{firm.name} | {flair_role}")
+ 
+        if firm_name is None:
+            return comment.reply_wrap(
+                message.modify_firm_self(
+                    investor.firm_role,
+                    firm,
+                    ceo,
+                    execs,
+                    traders))
+        else:
+            return comment.reply_wrap(
+                message.modify_firm_other(
+                    firm,
+                    ceo,
+                    execs,
+                    traders))
 
     @req_user
     def creasocieta(self, sess, comment, investor, firm_name):
@@ -567,11 +595,12 @@ class CommentWorker():
             filter(Firm.id == investor.firm).\
             first()
 
-        investor.firm = 0
         firm.size -= 1
-
         if investor.firm_role == 'exec':
             firm.execs -= 1
+
+        investor.firm = 0
+        investor.firm_role = ""
 
         # Removing the flair in subreddits
         if not config.TEST:
@@ -588,7 +617,7 @@ class CommentWorker():
             return comment.reply_wrap(message.not_ceo_org)
 
         user = sess.query(Investor).\
-            filter(Investor.name == to_promote).\
+            filter(func.lower(Investor.name) == func.lower(to_promote)).\
             first()
         if (user is None) or (user.firm != investor.firm):
             return comment.reply_wrap(message.promote_failure_org)
@@ -610,14 +639,21 @@ class CommentWorker():
             user.firm_role = "ceo"
 
         # Updating the flair in subreddits
-        flair_role = ''
+        flair_role_user = ''
         if user.firm_role == "ceo":
-            flair_role = "CEO"
+            flair_role_user = "CEO"
         else:
-            flair_role = "Executive"
+            flair_role_user = "Executive"
+        flair_role_investor = ''
+        if investor.firm_role == "ceo":
+            flair_role_investor = "CEO"
+        else:
+            flair_role_investor = "Executive"
+
         if not config.TEST:
             for subreddit in config.SUBREDDITS:
-                REDDIT.subreddit(subreddit).flair.set(user.name, f"{firm.name} | {flair_role}")
+                REDDIT.subreddit(subreddit).flair.set(user.name, f"{firm.name} | {flair_role_user}")
+                REDDIT.subreddit(subreddit).flair.set(investor.name, f"{firm.name} | {flair_role_investor}")
 
         return comment.reply_wrap(message.modify_promote(user))
 
@@ -630,7 +666,7 @@ class CommentWorker():
             return comment.reply_wrap(message.not_ceo_or_exec_org)
 
         user = sess.query(Investor).\
-            filter(Investor.name == to_fire).\
+            filter(func.lower(Investor.name) == func.lower(to_fire)).\
             first()
         if (user == None) or (user.name == investor.name) or (user.firm != investor.firm):
             return comment.reply_wrap(message.fire_failure_org)
@@ -642,12 +678,12 @@ class CommentWorker():
             filter(Firm.id == investor.firm).\
             first()
 
+        firm.size -= 1
+        if user.firm_role == 'exec':
+            firm.execs -= 1
+
         user.firm_role = ""
         user.firm = 0
-        firm.size -= 1
-
-        if investor.firm_role == 'exec':
-            firm.execs -= 1
 
         # Clear the firm flair
         if not config.TEST:
@@ -661,7 +697,7 @@ class CommentWorker():
             return comment.reply_wrap(message.joinfirm_exists_failure_org)
 
         firm = sess.query(Firm).\
-            filter(Firm.name == firm_name).\
+            filter(func.lower(Firm.name) == func.lower(firm_name)).\
             first()
         if firm == None:
             return comment.reply_wrap(message.joinfirm_failure_org)
@@ -685,7 +721,7 @@ class CommentWorker():
         # Updating the flair in subreddits
         if not config.TEST:
             for subreddit in config.SUBREDDITS:
-                REDDIT.subreddit(subreddit).flair.set(investor.name, f"{firm_name} | Floor Trader")
+                REDDIT.subreddit(subreddit).flair.set(investor.name, f"{firm.name} | Floor Trader")
 
         return comment.reply_wrap(message.modify_joinfirm(firm))
 
@@ -705,7 +741,7 @@ class CommentWorker():
             return comment.reply_wrap(message.invite_not_private_failure_org)
 
         invitee = sess.query(Investor).\
-            filter(Investor.name == invitee_name).\
+            filter(func.lower(Investor.name) == func.lower(invitee_name)).\
             first()
         if invitee == None:
             return comment.reply_wrap(message.invite_no_user_failure_org)

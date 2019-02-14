@@ -68,7 +68,7 @@ def get_timeframes():
 @APP.route("/coins/invested")
 def coins_invested():
     """
-    Returns all invested Mem€ in the market
+    Returns all invested memecoins in the market
     """
     res = DB.session.query(func.coalesce(func.sum(Investment.amount), 0)).\
           filter(Investment.done == 0).scalar()
@@ -77,7 +77,7 @@ def coins_invested():
 @APP.route("/coins/total")
 def coins_total():
     """
-    Returns all active Mem€ in the market
+    Returns all active memecoins in the market
     """
     res = DB.session.query(func.coalesce(func.sum(Investor.balance), 0)).\
         scalar()
@@ -119,7 +119,7 @@ def investments():
 @APP.route("/investments/active")
 def investments_active():
     """
-    Returns all investimenti attivi
+    Returns all active investments
     """
     res = DB.session.query(func.count(Investment.id)).\
           filter(Investment.done == 0).scalar()
@@ -318,7 +318,7 @@ def investor_investments(name):
 @APP.route("/investor/<string:name>/active")
 def investor_active(name):
     """
-    Returns investimenti attivi of a user
+    Returns active investments of a user
     """
     page, per_page = get_pagination()
     time_from, time_to = get_timeframes()
