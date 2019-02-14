@@ -17,7 +17,7 @@ from stopwatch import Stopwatch
 
 logging.basicConfig(level=logging.INFO)
 
-BALANCE_CAP = 1000*1000*1000*1000*1000*1000 # One quintillion Mem€
+BALANCE_CAP = 1000*1000*1000*1000*1000*1000 # One quintillion MemeCoins
 
 # TODO: add classes docstring
 class EmptyResponse():
@@ -69,7 +69,7 @@ def main():
 
     stopwatch = Stopwatch()
 
-    logging.info("Monitoring investimenti attivi...")
+    logging.info("Monitoring active investments...")
 
     while not killhandler.killed:
         sess = session_maker()
@@ -119,6 +119,7 @@ def main():
         else:
             response = EmptyResponse()
 
+        firm_profit = 0
         if new_balance < BALANCE_CAP:
             # If investor is in a firm and he profits,
             # 15% goes to the firm
@@ -129,10 +130,10 @@ def main():
                     first()
                 firm_name = firm.name
 
-                user_profit = profit * ((100 - firm.tax) / 100)
-                investor.balance += user_profit
+                user_profit = int(profit * ((100 - firm.tax) / 100))
+                investor.balance += user_profit + amount
 
-                firm_profit = profit * (firm.tax / 100)
+                firm_profit = int(profit * (firm.tax / 100))
                 firm.balance += firm_profit
             else:
                 investor.balance = new_balance
