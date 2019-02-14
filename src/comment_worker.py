@@ -339,46 +339,7 @@ class CommentWorker():
         """
         This function invests
         """
-        if config.PREVENT_INSIDERS:
-            if comment.submission.author.name == comment.author.name:
-                comment.reply_wrap(message.INSIDE_TRADING_ORG)
-                return
-
-        try:
-            amount = float(amount.replace(',', ''))
-            amount = int(amount * CommentWorker.multipliers.get(suffix, 1))
-        except ValueError:
-            return
-
-        if amount < 100:
-            comment.reply_wrap(message.MIN_INVEST_ORG)
-            return
-
-        author = comment.author.name
-        new_balance = investor.balance - amount
-
-        if new_balance < 0:
-            comment.reply_wrap(message.modify_insuff(investor.balance))
-            return
-
-        # Sending a confirmation
-        response = comment.reply_wrap(message.modify_invest(
-            amount,
-            comment.submission.ups,
-            new_balance
-        ))
-
-        sess.add(Investment(
-            post=comment.submission.id,
-            upvotes=comment.submission.ups,
-            comment=comment.id,
-            name=author,
-            amount=amount,
-            response=response.id,
-            done=False,
-        ))
-
-        investor.balance = new_balance
+        investi(sess, comment, investor, amount, suffix)
 
     @req_user
     def saldo(self, sess, comment, investor):
