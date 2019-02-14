@@ -112,6 +112,8 @@ def main():
     logging.info(sidebar_text)
     for subreddit in config.SUBREDDITS:
         reddit.subreddit(subreddit).mod.update(description=sidebar_text)
+    wikipage = reddit.subreddit('BancaDelMeme').wiki['leaderboard']
+    wikipage.edit(.format(sidebar_text))
 
     sess.commit()
 
