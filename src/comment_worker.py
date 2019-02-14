@@ -310,16 +310,21 @@ class CommentWorker():
             comment.reply_wrap(message.modify_insuff(investor.balance))
             return
 
+        # 0 upvotes is too strong, so what we do is make around 1 minumum
+        upvotes_now = int(comment.submission.ups)
+        if upvotes_now < 1:
+            upvotes_now = 1
+
         # Sending a confirmation
         response = comment.reply_wrap(message.modify_invest(
             amount,
-            comment.submission.ups,
+            upvotes_now,
             new_balance
         ))
 
         sess.add(Investment(
             post=comment.submission.id,
-            upvotes=comment.submission.ups,
+            upvotes=upvotes_now,
             comment=comment.id,
             name=author,
             amount=amount,
