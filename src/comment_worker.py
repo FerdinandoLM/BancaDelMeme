@@ -339,7 +339,7 @@ class CommentWorker():
         """
         This function invests
         """
-        investi(sess, comment, investor, amount, suffix)
+        self.investi(sess, comment, investor, amount, suffix)
 
     @req_user
     def saldo(self, sess, comment, investor):
