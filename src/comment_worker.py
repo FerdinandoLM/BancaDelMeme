@@ -334,12 +334,11 @@ class CommentWorker():
 
         investor.balance = new_balance
 
-    @req_user
-    def invest(self, sess, comment, investor, amount, suffix):
+    def invest(self, *args, **kwargs):
         """
         This function invests
         """
-        self.investi(sess, comment, investor, amount, suffix)
+        self.investi(*args, **kwargs)
 
     @req_user
     def saldo(self, sess, comment, investor):
