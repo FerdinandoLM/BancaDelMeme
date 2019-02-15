@@ -443,13 +443,21 @@ class CommentWorker():
         return comment.reply_wrap(message.modify_deploy_version(utils.DEPLOY_DATE))
 
     @req_user
-    def societa(self, sess, comment, investor):
-        if investor.firm == 0:
-            return comment.reply_wrap(message.firm_none_org)
+    def firm(self, sess, comment, investor, firm_name=None):
+        if firm_name is None:
+            if investor.firm == 0:
+                return comment.reply_wrap(message.firm_none_org)
 
-        firm = sess.query(Firm).\
-            filter(Firm.id == investor.firm).\
-            first()
+            firm = sess.query(Firm).\
+                filter(Firm.id == investor.firm).\
+                first()
+        else:
+            firm = sess.query(Firm).\
+                filter(func.lower(Firm.name) == func.lower(firm_name)).\
+                first()
+
+            if firm is None:
+                return comment.reply_wrap(message.firm_notfound_org)
 
         ceo = "/u/" + sess.query(Investor).\
             filter(Investor.firm == firm.id).\

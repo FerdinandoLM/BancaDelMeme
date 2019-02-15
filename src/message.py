@@ -369,7 +369,28 @@ Non ti trovi in una societa.
 Puoi crearne una con il comando **!creasocieta <NOME societa>**, oppure richiedere di accedere ad una esistente con il comando **!entrainsocieta <NOME societa ESISTENTE>**.
 """
 
-firm_org = """
+firm_other_org = """
+societa: **%FIRM_NAME%**
+
+BILANCIO societa: **%BALANCE%** Mem€
+
+LIVELLO societa: **%LEVEL%**
+
+----
+
+## MEMBRI:
+
+*CEO:*
+%CEO%
+
+*Executives:*
+%EXECS%
+
+*Trader semplici:*
+%TRADERS%
+"""
+
+firm_self_org = """
 societa: **%FIRM_NAME%**
 
 BILANCIO societa: **%BALANCE%** Mem€
@@ -396,21 +417,34 @@ Il tuo Rank: **%RANK%**
 Puoi lasciare questa societa con il comando **!escidallasocieta**.
 """
 
+firm_notfound_org = """
+Nessuna societa trovata con questo nome.
+"""
+
 rank_strs = {
     "ceo": "CEO",
     "exec": "Executive",
     "": "Trader semplice"
 }
 
-def modify_firm(rank, firm, ceo, execs, traders):
+def modify_firm_other(firm, ceo, execs, traders):
+    return firm_other_org.\
+        replace("%FIRM_NAME%", firm.name).\
+        replace("%CEO%", ceo).\
+        replace("%EXECS%", execs).\
+        replace("%TRADERS%", traders).\
+        replace("%BALANCE%", "{:,}".format(firm.balance)).\
+        replace("%LEVEL%", str(firm.rank + 1))
+
+def modify_firm_self(rank, firm, ceo, execs, traders):
     rank_str = rank_strs[rank]
-    return firm_org.\
+    return firm_self_org.\
         replace("%RANK%", rank_str).\
         replace("%FIRM_NAME%", firm.name).\
         replace("%CEO%", ceo).\
         replace("%EXECS%", execs).\
         replace("%TRADERS%", traders).\
-        replace("%BALANCE%", str(firm.balance)).\
+        replace("%BALANCE%", "{:,}".format(firm.balance)).\
         replace("%LEVEL%", str(firm.rank + 1))
 
 createfirm_exists_failure_org = """
