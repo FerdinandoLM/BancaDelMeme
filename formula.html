@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Formula Demo</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/data.js"></script>
+  <script src="https://code.highcharts.com/modules/series-label.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://www.highcharts.com/media/com_demo/css/highslide.css" />
+
+
+  <form id="main-form">
+    <div>
+      <label for="max_a">MAX_A:</label> <input name="max_a" type="text" value="1.2" />
+      <label for="max_b">MAX_B:</label> <input name="max_b" type="text" value="1.7" />
+      <label for="max_c">MAX_C:</label> <input name="max_c" type="text" value="7" />
+    </div>
+    <div>
+      <label for="mid_a">MID_A:</label> <input name="mid_a" type="text" value="7" />
+      <label for="mid_b">MID_B:</label> <input name="mid_b" type="text" value="500" />
+      <label for="mid_m">MID_M:</label> <input name="mid_m" type="text" value="25000" />
+    </div>
+    <div>
+      <label for="steep_a">STEEP_A:</label> <input name="steep_a" type="text" value="0.06" />
+      <label for="steep_b">STEEP_B:</label> <input name="steep_b" type="text" value="50" />
+      <button name='gogo'>Refresh</button>
+    </div>
+  </form>
+
+  <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+  <script src="js/formula.js"></script>
+</body>
+
+</html>
