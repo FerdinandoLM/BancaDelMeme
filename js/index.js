@@ -37,15 +37,15 @@ let investmentsCalculator = (function() {
       }
    }
    function max(start) {
-      return 1.2 + 1.4 / ((start / 7) + 1);
+      return 1.2 + 1.7 / ((start / 7) + 1);
    }
    function mid(start) {
-      let sig_mp_0 = 7;
+      let sig_mp_0 = 20;
       let sig_mp_1 = 500;
       return linear_interpolate(start, 0, 25000, sig_mp_0, sig_mp_1);
    }
    function stp(start){
-      return 0.01 / ((start / 100) + 1);
+      return 0.05 / ((start / 100) + 1);
    }
    function C(start, end) {
      return S(gain(start, end), max(start), mid(start), stp(start));
