@@ -1,3 +1,4 @@
+import datetime
 import json
 import logging
 import re
@@ -115,14 +116,14 @@ class CommentWorker():
     r"!societa",
     r"!creasocieta\s+(.+)",
     r"!accediasocieta\s+(.+)",
-        r"!lasciasocieta",
-        r"!promuovi\s+(.+)",
-        r"!licenzia\s+(.+)",
-        r"!migliorasocieta",
-        r"!invita\s+(.+)",
-        r"!impostaprivato",
-        r"!impostapubblico",
-        r"!tassa\s+(\d+)"
+    r"!lasciasocieta",
+    r"!promuovi\s+(.+)",
+    r"!licenzia\s+(.+)",
+    r"!migliorasocieta",
+    r"!invita\s+(.+)",
+    r"!impostaprivato",
+    r"!impostapubblico",
+    r"!tassa\s+(\d+)"
     """
     commands = [
         r"!attivi",
@@ -138,6 +139,7 @@ class CommentWorker():
         r"!versione",
         r"!assegna\s+(\S+)\s+(\S+)",
         r"!template\s+(%s)" % "|".join(template_sources),
+        r"!wiki",
     ]
 
     # allowed: alphanumeric, spaces, dashes
@@ -808,6 +810,31 @@ class CommentWorker():
         max_execs = max_execs_for_rank(firm.rank)
 
         return comment.reply_wrap(message.modify_upgrade(firm, max_members, max_execs))
+
+    @req_user
+    def wiki(self, sess, comment, investor):
+        """
+        Create/update a wiki page on the user
+        """
+        done_investments = sess.query(Investment).\
+            filter(Investment.done == 1).\
+            filter(Investment.name == investor.name).\
+            order_by(Investment.time).\
+            all()
+        text = message.WIKI_HEADER
+        for investment in done_investments:
+            text += message.WIKI_ROW.\
+                    replace('%TIME%', datetime.datetime.fromtimestamp(investment.time).isoformat(' ')).\
+                    replace('%POST%', investment.post).\
+                    replace('%COMM%', investment.comment).\
+                    replace('%AMOUNT%', '{:d}'.format(investment.amount)).\
+                    replace('%SSTART%', '{:d}'.format(investment.upvotes)).\
+                    replace('%SEND%', '{:d}'.format(investment.final_upvotes)).\
+                    replace('%RESULT%', '{:d}'.format(investment.profit))
+        page = 'u_' + investor.name
+        comment.subreddit.wiki.create(page, 'Updating', 'Init')
+        comment.subreddit.wiki[page].edit(text, 'Update')
+        return comment.reply_wrap(message.WIKI_COMMENT.replace('%PAGE%', page))
 
 def concat_names(investors):
     names = ["/u/" + i.name for i in investors]
