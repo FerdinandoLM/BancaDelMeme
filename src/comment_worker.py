@@ -130,6 +130,7 @@ class CommentWorker():
         r"!saldo",
         r"!bancarotta",
         r"!create",
+        r"!crea",
         r"!aiuto\s*!?(.+)?",
         r"!ignora",
         r"!investi\s+([\d,.]+)\s*(%s)?(?:\s|$)" % "|".join(multipliers),		
@@ -251,23 +252,8 @@ class CommentWorker():
         comment.reply_wrap(message.modify_top(leaders))
 
     def create(self, sess, comment):
-        """
-        This one is responsible for creating a new user 
-        """
-        author = comment.author.name
-        user_exists = sess.query(Investor).filter(Investor.name == author).exists()
+        self.crea(sess, comment)
 
-        # Let user know they already have an account
-        if sess.query(user_exists).scalar():
-            comment.reply_wrap(message.CREATE_EXISTS_ORG)
-            return
-
-        # Create new investor account
-        sess.add(Investor(name=author))
-        # TODO: Make the initial balance a constant
-        comment.reply_wrap(message.modify_create(comment.author, config.STARTING_BALANCE))
-
-    @req_user
     def crea(self, sess, comment):
         """
         This one is responsible for creating a new user
@@ -382,7 +368,7 @@ class CommentWorker():
             order_by(Investment.time).\
             all()
 
-        comment.reply_wrap(message.modify_active(active_investments))
+        return comment.reply_wrap(message.modify_active(active_investments))
 
     def assegna(self, sess, comment, grantee, badge):
         """
