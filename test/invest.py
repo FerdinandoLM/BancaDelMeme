@@ -4,39 +4,35 @@ import message
 class TestInvest(Test):
     def test_under_minimum(self):
         self.command('!create')
-
-        replies = self.command('!invest 50')
+        replies = self.command('!investi 50')
         self.assertEqual(len(replies), 1)
-        self.assertEqual(replies[0], message.MIN_INVEST_ORG)
+        self.assertEqual(replies[0].body, message.MIN_INVEST_ORG)
 
     def test_negative(self):
         self.command('!create')
-
-        replies = self.command('!invest -50')
+        replies = self.command('!investi -50')
         self.assertEqual(len(replies), 0)
 
     def test_non_number(self):
         self.command('!create')
-
-        replies = self.command('!invest abc')
+        replies = self.command('!investi abc')
+        self.assertEqual(len(replies), 0)
+        replies = self.command('!investi 1.1.231.23.1')
         self.assertEqual(len(replies), 0)
 
     def test_none(self):
         self.command('!create')
-
-        replies = self.command('!invest')
+        replies = self.command('!investi')
         self.assertEqual(len(replies), 0)
 
     def test_insufficient_funds(self):
         self.command('!create')
-
-        replies = self.command('!invest 2000')
+        replies = self.command('!investi 2000')
         self.assertEqual(len(replies), 1)
-        self.assertEqual(replies[0], message.modify_insuff(1000))
+        self.assertEqual(replies[0].body, message.modify_insuff(1000))
 
     def test_basic(self):
         self.command('!create')
-
-        replies = self.command('!invest 100')
+        replies = self.command('!investi 100')
         self.assertEqual(len(replies), 1)
-        self.assertEqual(replies[0], message.modify_invest(100, 100, 900))
+        self.assertEqual(replies[0].body, message.modify_invest(100, 100, 900))

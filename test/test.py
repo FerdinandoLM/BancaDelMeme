@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 from comment_worker import CommentWorker
-from models import Base, Investor, Firm
+from models import Base, Investor, Firm, Investment
 from mock_praw import Comment, Submission
 
 class Test(unittest.TestCase):
@@ -17,12 +17,18 @@ class Test(unittest.TestCase):
         engine = create_engine('sqlite:///.testenv/test.db')
         self.Session = session_maker = scoped_session(sessionmaker(bind=engine))
         Base.metadata.create_all(engine)
+        sess = self.Session()
+        sess.query(Investment).delete()
+        sess.query(Investor).delete()
 
         self.worker = CommentWorker(session_maker)
 
     def tearDown(self):
         # remove db file
-        os.remove('.testenv/test.db')
+        sess = self.Session()
+        sess.query(Investment).delete()
+        sess.query(Investor).delete()
+        sess.commit()
 
     def command(self, command, username='testuser', post='testpost'):
         comment = Comment(post + '/id', username, command, Submission(post))

@@ -20,5 +20,6 @@
     "BOT_USER_AGENT": "UserAgent",
     "BOT_USERNAME": "BotUsername",
     "BOT_PASSWORD": "BotPassword",
+    "TEST": 0
     "DBFILE": "path/to/db.sqlite3"
-}c
+}

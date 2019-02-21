@@ -4,7 +4,10 @@ os allows us to access the environment variables list
 import json
 import os
 
-with open(os.path.join('..', 'cfg.json'), 'r', encoding='utf-8') as config_file:
+config_path = os.path.join('..', 'cfg.json')
+config_path = os.environ.get('CONFIG', config_path)
+
+with open(config_path, 'r', encoding='utf-8') as config_file:
     config_data = json.load(config_file)
 
 POST_TO_REDDIT = int(config_data['BOT_POST_TO_REDDIT'])
@@ -32,6 +35,6 @@ SUBREDDITS = config_data['BOT_SUBREDDITS']
 
 DBFILE = config_data['DBFILE']
 
-TEST = 0
+TEST = int(config_data['TEST'])
 
 DB = "sqlite:///{db}".format(db=DBFILE)

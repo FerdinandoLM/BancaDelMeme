@@ -18,8 +18,8 @@ def main():
     # Upper left subplot
     ax = plt.subplot2grid((6, 2), (0, 0), rowspan=3, colspan=1)
 
-    olds = [0, 1, 5, 10, 25, 50, 100, 200, 500, 1000, 2500, 5000, 7500, 10000, 15000, 20000]
-    news = range(0, 25000)
+    olds = [0, 1, 5, 10, 25, 50, 100]
+    news = range(0, 200)
 
     xy = []
     for o in olds:
@@ -48,8 +48,8 @@ def main():
     # Bottom left subplot
     ax = plt.subplot2grid((6, 2), (3, 0), rowspan=3, colspan=1)
 
-    olds = [0, 1, 5, 10, 25, 50, 100, 200]
-    news = range(0, 500)
+    olds = [0, 1, 2, 5, 10, 15, 20]
+    news = range(0, 100)
 
     xy = []
     for o in olds:
@@ -78,7 +78,7 @@ def main():
     # Upper right subplot
     ax = plt.subplot2grid((6, 2), (0, 1), rowspan=1, colspan=1)
 
-    olds = range(0, 25000)
+    olds = range(0, 200)
 
     x = []
     y = []
@@ -100,7 +100,7 @@ def main():
     # Upper right subplot
     ax = plt.subplot2grid((6, 2), (1, 1), rowspan=1, colspan=1)
 
-    olds = range(0, 25000)
+    olds = range(0, 200)
 
     x = []
     y = []
@@ -121,7 +121,7 @@ def main():
     # Upper right subplot
     ax = plt.subplot2grid((6, 2), (2, 1), rowspan=1, colspan=1)
 
-    olds = range(0, 25000)
+    olds = range(0, 200)
 
     x = []
     y = []
@@ -194,7 +194,7 @@ def main():
     # Bottom right subplot
     ax = plt.subplot2grid((6, 2), (3, 1), rowspan=3, colspan=2)
 
-    olds = range(0, 1000, 1)
+    olds = range(0, 200, 1)
     min_n = 0
     max_n = 10000
 

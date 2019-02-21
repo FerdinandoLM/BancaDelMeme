@@ -10,13 +10,13 @@ class TestTop(Test):
     def test_top_none(self):
         replies = self.command('!top')
         self.assertEqual(len(replies), 1)
-        self.assertEqual(replies[0], message.modify_top([]))
+        self.assertEqual(replies[0].body, message.modify_top([]))
 
     def test_top(self):
         self.command('!create')
         replies = self.command('!top')
         self.assertEqual(len(replies), 1)
-        self.assertEqual(replies[0], message.modify_top([
+        self.assertEqual(replies[0].body, message.modify_top([
             Leader('testuser', 1000)
         ]))
 
@@ -28,7 +28,7 @@ class TestTop(Test):
 
         replies = self.command('!top')
         self.assertEqual(len(replies), 1)
-        self.assertEqual(replies[0], message.modify_top([
+        self.assertEqual(replies[0].body, message.modify_top([
             Leader('testuser', 1000),
             Leader('testuser2', 1000),
             Leader('testuser3', 1000),
@@ -39,7 +39,7 @@ class TestTop(Test):
         self.set_balance(1234, username='testuser6')
         replies = self.command('!top')
         self.assertEqual(len(replies), 1)
-        self.assertEqual(replies[0], message.modify_top([
+        self.assertEqual(replies[0].body, message.modify_top([
             Leader('testuser6', 1234),
             Leader('testuser', 1000),
             Leader('testuser2', 1000),
@@ -53,6 +53,6 @@ class TestTop(Test):
 
         replies = self.command('!top')
         self.assertEqual(len(replies), 1)
-        self.assertEqual(replies[0], message.modify_top([
+        self.assertEqual(replies[0].body, message.modify_top([
             Leader('testuser', 1000)
         ]))
