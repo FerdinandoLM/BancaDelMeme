@@ -1,4 +1,5 @@
 import time
+from unittest.mock import MagicMock
 
 class Redditor():
     def __init__(self, name):
@@ -47,3 +48,16 @@ class Comment():
     @property
     def is_submitter(self):
         return self.author.name == self.submission.author.name
+
+class Reddit():
+    def __init__(self, *args, **kwargs):
+        self.user = MagicMock()
+        self.submissions = {}
+        self.auth = MagicMock()
+
+    def submission(self, id):
+        return self.submissions.get(id, None)
+
+    def add_submission(self, submission):
+        self.submissions[submission.id] = submission
+

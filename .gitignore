@@ -134,3 +134,5 @@ checked_comments.txt
 
 cfg.json
 backup7.sh
+cfg_test.json
+db_test.sqlite3
