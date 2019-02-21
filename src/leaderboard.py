@@ -105,11 +105,11 @@ def main():
     top_users_text = "Rank|User|Net Worth\n"
     top_users_text += ":-:|:-:|:-:\n"
     for i, user in enumerate(top_users):
-        top_users_text += f"{i + 1}|/u/{user.name}|{user.networth} M€\n"
+        top_users_text += f"{i + 1}|/u/{user.name}|{formatNumber(user.networth)} M€\n"
 
     sidebar_text = sidebar_text_org.\
         replace("%TOP_USERS%", top_users_text).\
-		replace("%LOCALTIME%", localtime)
+        replace("%LOCALTIME%", localtime)
 
     logging.info(" -- Updating sidebar text to:")
     logging.info(sidebar_text)
@@ -126,6 +126,21 @@ def main():
     logging.info(" -- API calls remaining: %s, resetting in %.2fs", rem, res)
 
     sess.close()
+
+def formatNumber(n):
+    suffixes = {
+        6: 'M',
+        9: 'B',
+        12: 'T',
+        15: 'Q'
+    }
+    digits = len(str(n))
+    if digits <= 6:
+        return '{:,}'.format(n)
+    exponent = (digits - 1) - ((digits - 1) % 3)
+    mantissa = n / (10 ** exponent)
+    suffix = suffixes.get(exponent)
+    return '{:.2f}{}'.format(mantissa, suffix)
 
 if __name__ == "__main__":
     main()
