@@ -2,7 +2,7 @@ import math
 
 from fastnumbers import fast_float
 
-def calculate(new, old, net_worth):
+def calculate(new, old, net_worth=0):
     new = fast_float(new)
     old = fast_float(old)
     net_worth = fast_float(net_worth)
@@ -32,14 +32,17 @@ def calculate(new, old, net_worth):
     # Calculate return
     factor = sigmoid(delta, sig_max, sig_mp, sig_stp)
 
-    # Normalize between -1 and 1
-    factor = factor - 1
+    if net_worth:
+        # Normalize between -1 and 1
+        factor = factor - 1
 
-    # Adjust based on net worth
-    factor = factor * net_worth_coefficient(net_worth)
+        # Adjust based on net worth
+        factor = factor * net_worth_coefficient(net_worth)
 
-    # Return investment amount multiplier (change + 1)
-    return factor + 1
+        # Return investment amount multiplier (change + 1)
+        factor = factor + 1
+
+    return factor
 
 def sigmoid(x, maxvalue, midpoint, steepness):
     arg = -(steepness * (x - midpoint))

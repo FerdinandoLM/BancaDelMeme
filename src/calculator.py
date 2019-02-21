@@ -89,11 +89,12 @@ def main():
         duration = stopwatch.measure()
 
         investor = sess.query(Investor).filter(Investor.name == investment.name).one()
-        net_worth = sess.\
-            query(func.sum(Investment.amount)).\
-            filter(and_(Investment.name == investor.name, Investment.done == 0)).\
-            scalar()\
-            + investor.balance
+        # net_worth = sess.\
+        #     query(func.sum(Investment.amount)).\
+        #     filter(and_(Investment.name == investor.name, Investment.done == 0)).\
+        #     scalar()\
+        #     + investor.balance
+        net_worth = 0
 
         logging.info("New mature investment: %s", investment.comment)
         logging.info(" -- by %s", investor.name)
