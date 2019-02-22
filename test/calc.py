@@ -15,10 +15,13 @@ from models import Base, Investor, Firm, Investment
 from mock_praw import Comment, Submission, Reddit
 from unittest.mock import Mock
 
+class DoneException(BaseException):
+    pass
+
 def sleep_once(time):
     if time > 5:
         return
-    os.kill(os.getpid(), signal.SIGTERM)
+    raise DoneException()
 
 class CalculatorTest(unittest.TestCase):
     def setUp(self):
@@ -65,6 +68,9 @@ class CalculatorTest(unittest.TestCase):
         return investor, investment
 
     def test_base(self):
-        investor, _ = self.create_investment(100, 0, 100)
-        self.calculator.main()
-        self.assertTrue(investor.balance != config.STARTING_BALANCE)
+        try:
+            investor, _ = self.create_investment(100, 0, 100)
+            self.calculator.main()
+        except DoneException:
+            pass
+        self.assertTrue(investor.balance != config.STARTING_BALANCE)        
