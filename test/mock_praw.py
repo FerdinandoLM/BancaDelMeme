@@ -27,6 +27,7 @@ class Comment():
         self.replies = []
         self.submission = submission
         self.edited = False
+        self.stickied = False
 
     def reply_wrap(self, body):
         comment = Comment(self.id + '/r', 'replyer', body, self.submission)
