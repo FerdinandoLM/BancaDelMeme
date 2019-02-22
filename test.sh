@@ -8,7 +8,7 @@ if [ ! -d $TEST_ENV ]; then
   if [ -f $TEST_ENV/bin/activate ]; then
     source $TEST_ENV/bin/activate
   else
-    $TEST_ENV/Scripts/activate.bat
+    source $TEST_ENV/Scripts/activate
   fi
 
   # install deps
@@ -19,7 +19,7 @@ else
   if [ -f $TEST_ENV/bin/activate ]; then
     source $TEST_ENV/bin/activate
   else
-    $TEST_ENV/Scripts/activate.bat
+    source $TEST_ENV/Scripts/activate
   fi
 fi
 
