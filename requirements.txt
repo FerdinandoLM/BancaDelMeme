@@ -1,2 +1,3 @@
 praw
 fastnumbers
+sqlalchemy
