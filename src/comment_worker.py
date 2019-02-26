@@ -141,6 +141,8 @@ class CommentWorker():
         r"!assegna\s+(\S+)\s+(\S+)",
         r"!template\s+(%s)" % "|".join(template_sources),
         r"!wiki",
+        r"!vendi",
+        r"!investitutto",
     ]
 
     # allowed: alphanumeric, spaces, dashes
@@ -822,6 +824,31 @@ class CommentWorker():
         comment.subreddit.wiki.create(page, 'Updating', 'Init')
         comment.subreddit.wiki[page].edit(text, 'Update')
         return comment.reply_wrap(message.WIKI_COMMENT.replace('%PAGE%', page))
+
+    @req_user
+    def vendi(self, sess, comment, investor):
+        """
+        Returns a list of all active investments made by the user
+        """
+        investments = sess.query(Investment).\
+            filter(Investment.done == 0).\
+            filter(Investment.post == comment.submission.id).\
+            filter(Investment.name == investor.name).\
+            order_by(Investment.time).\
+            all()
+
+        for investment in investments:
+            investment.time = int(time.time()) - config.INVESTMENT_DURATION
+
+        sess.commit()
+
+        return comment.reply_wrap(message.modify_sell_investment(len(investments)))
+
+    @req_user
+    def investitutto(self, sess, comment, investor):
+        self.investi(sess, comment, str(investor.balance), None)
+
+
 
 def concat_names(investors):
     names = ["/u/" + i.name for i in investors]

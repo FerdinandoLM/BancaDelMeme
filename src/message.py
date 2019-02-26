@@ -706,3 +706,15 @@ WIKI_ROW = """
 WIKI_COMMENT = """
 Puoi trovare la lista dei tuoi investimenti conclusi sulla [tua pagina wiki](https://www.reddit.com/r/BancaDelMeme/wiki/%PAGE%)
 """
+
+SELL_INVESTMENTS = """
+I{il} tuo{tuo} investiment{agg} {verb} stat{agg} chius{agg}.
+
+A breve i{il} comment{agg} verr{verr} aggiornat{agg} con il risultato.
+"""
+
+def modify_sell_investment(num_investments):
+    endings = {'il': 'l', 'agg': 'o', 'verb': 'è', 'tuo': '', 'verr': 'è'}
+    if num_investments > 1:
+        endings = {'il': '', 'agg': 'i', 'verb': 'sono', 'tuo': 'i', 'verr': 'anno'}
+    return SELL_INVESTMENTS.format(**endings)
