@@ -838,7 +838,10 @@ class CommentWorker():
             all()
 
         for investment in investments:
+            remaining = int(time.time()) + config.INVESTMENT_DURATION - investment.time
+            tax = remaining / 60 / 60 / 100  # 1% every hour
             investment.time = int(time.time()) - config.INVESTMENT_DURATION
+            investment.amount = round(investment.amount - investment.amount * tax)
 
         sess.commit()
 

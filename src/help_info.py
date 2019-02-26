@@ -29,6 +29,6 @@ help_dict = {
     'top': "Mostra i migliori investitori.",
     'versione': "Mostra quando è stata installata la versione corrente del bot.",
     'wiki': "Ottieni la lista dei tuoi ultimi 50 investimenti conclusi sulla wiki.",
-    'vendi': "Concludi in anticipo il tuo investimento attivo nel post in questione.",
+    'vendi': "Concludi in anticipo il tuo investimento attivo nel post in questione (1% di commissione sull'investimento per ora di anticipo).",
     'investitutto': "Come investi, ma l'ammontare è uguale al tuo saldo."
 }

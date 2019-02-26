@@ -708,7 +708,7 @@ Puoi trovare la lista dei tuoi investimenti conclusi sulla [tua pagina wiki](htt
 """
 
 SELL_INVESTMENTS = """
-I{il} tuo{tuo} investiment{agg} {verb} stat{agg} chius{agg}.
+I{il} tuo{tuo} investiment{agg} {verb} stat{agg} tassat{agg} e chius{agg}.
 
 A breve i{il} comment{agg} verr{verr} aggiornat{agg} con il risultato.
 """
@@ -719,7 +719,7 @@ Nessun investimento attivo trovato in questo post"""
 def modify_sell_investment(num_investments):
     if num_investments < 1:
         return SELL_NO_INVESTMENTS
-    endings = {'il': 'l', 'agg': 'o', 'verb': 'è', 'tuo': '', 'verr': 'è'}
+    endings = {'il': 'l', 'agg': 'o', 'verb': 'è', 'tuo': '', 'verr': 'à'}
     if num_investments > 1:
         endings = {'il': '', 'agg': 'i', 'verb': 'sono', 'tuo': 'i', 'verr': 'anno'}
     return SELL_INVESTMENTS.format(**endings)
