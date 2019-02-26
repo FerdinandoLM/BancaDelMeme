@@ -701,7 +701,7 @@ Tempo | Link | Importo | Upvotes | Final | Profitto
 --- | --- | --- | --- | --- | ---"""
 
 WIKI_ROW = """
-%TIME% | [link](https://www.reddit.com/r/BancaDelMeme/comments/%POST%//%COMM%) | %AMOUNT% | %SSTART% | %SEND% | %RESULT%"""
+%TIME% | [link](https://www.reddit.com/r/BancaDelMeme/comments/%POST%/_/%COMM%) | %AMOUNT% | %SSTART% | %SEND% | %RESULT%"""
 
 WIKI_COMMENT = """
 Puoi trovare la lista dei tuoi investimenti conclusi sulla [tua pagina wiki](https://www.reddit.com/r/BancaDelMeme/wiki/%PAGE%)

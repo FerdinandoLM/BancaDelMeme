@@ -807,11 +807,11 @@ class CommentWorker():
         done_investments = sess.query(Investment).\
             filter(Investment.done == 1).\
             filter(Investment.name == investor.name).\
-            order_by(Investment.time).\
+            order_by(Investment.time.desc()).\
             limit(50).\
             all()
         text = message.WIKI_HEADER
-        for investment in done_investments:
+        for investment in reversed(list(done_investments)):
             text += message.WIKI_ROW.\
                     replace('%TIME%', datetime.datetime.fromtimestamp(investment.time).isoformat(' ')).\
                     replace('%POST%', investment.post).\
