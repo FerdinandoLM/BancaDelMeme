@@ -10,6 +10,12 @@ class TestAdvanced(Test):
         self.assertEqual(len(replies), 1)
         self.assertEqual(replies[0].body, message.modify_sell_investment(1))
 
+    def test_sell_void(self):
+        self.command('!create')
+        replies = self.command('!vendi')
+        self.assertEqual(len(replies), 1)
+        self.assertEqual(replies[0].body, message.modify_sell_investment(0))
+
     def test_allin(self):
         self.command('!create')
         replies = self.command('!investi 200', post='testpost1')

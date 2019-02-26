@@ -713,7 +713,12 @@ I{il} tuo{tuo} investiment{agg} {verb} stat{agg} chius{agg}.
 A breve i{il} comment{agg} verr{verr} aggiornat{agg} con il risultato.
 """
 
+SELL_NO_INVESTMENTS = """
+Nessun investimento attivo trovato in questo post"""
+
 def modify_sell_investment(num_investments):
+    if num_investments < 1:
+        return SELL_NO_INVESTMENTS
     endings = {'il': 'l', 'agg': 'o', 'verb': 'è', 'tuo': '', 'verr': 'è'}
     if num_investments > 1:
         endings = {'il': '', 'agg': 'i', 'verb': 'sono', 'tuo': 'i', 'verr': 'anno'}
