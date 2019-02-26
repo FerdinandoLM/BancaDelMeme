@@ -117,6 +117,13 @@ def main():
         reddit.subreddit(subreddit).mod.update(description=sidebar_text)
     wikipage = reddit.subreddit('BancaDelMeme').wiki['index']
     wikipage.edit(sidebar_text)
+    # redesign
+    for subreddit in config.SUBREDDITS:
+        for widget in reddit.subreddit(subreddit).widgets.sidebar:
+            if isinstance(widget, praw.models.TextArea):
+                if widget.shortName.lower() == 'top10':
+                    widget.mod.update(text=top_users_text)
+                    break
 
     sess.commit()
 
