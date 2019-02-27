@@ -1,3 +1,4 @@
 praw
 fastnumbers
 sqlalchemy
+python-telegram-bot
