@@ -108,9 +108,11 @@ class CommentWorker():
         "i.reddit.com",
         "v.reddit.com",
         "i.redd.it",
-        "v.redd.it"
+        "v.redd.it",
+        "i.imgflip.com",
+        "i.kym-cdn.com"
     ]
-    template_sources = [f"https://{website}\S+" for website in websites]
+    template_sources = [f"https://{re.escape(website)}\S+" for website in websites]
     """ 
     SOCIETY COMMANDS
     r"!societa",
@@ -140,6 +142,7 @@ class CommentWorker():
         r"!versione",
         r"!assegna\s+(\S+)\s+(\S+)",
         r"!template\s+(%s)" % "|".join(template_sources),
+        r"!template\s+\[(%s)\]\(\1\)" % "|".join(template_sources),
         r"!wiki",
         r"!vendi",
         r"!investitutto",
