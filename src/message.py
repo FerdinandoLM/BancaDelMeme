@@ -268,7 +268,7 @@ Gli investitori con il valore netto più alto (saldo + investimenti attivi):
 def modify_top(leaders):
     top_string = ""
     for leader in leaders:
-        top_string = f"{top_string}\n\n{leader.name}: {int(leader.networth)} Mem€"
+        top_string = f"{top_string}\n\n{leader.name}: {int(leader.networth):,} Mem€"
 
     top_response = TOP_ORG
     top_response = top_response.replace("%TOP_STRING%", top_string)
