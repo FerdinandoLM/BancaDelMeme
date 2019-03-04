@@ -83,7 +83,7 @@ def main():
 
         if not investment:
             # Nothing matured yet; wait a bit before trying again
-            time.sleep(5)
+            time.sleep(50)
             continue
 
         duration = stopwatch.measure()
