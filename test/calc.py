@@ -18,10 +18,15 @@ from unittest.mock import Mock
 class DoneException(BaseException):
     pass
 
-def sleep_once(time):
-    if time < 10:
-        return
-    raise DoneException()
+def sleep_func():
+    done = False
+    def sleep(_):
+        nonlocal done
+        if not done:
+            done = True
+            return
+        raise DoneException()
+    return sleep
 
 class CalculatorTest(unittest.TestCase):
     def setUp(self):
@@ -33,7 +38,7 @@ class CalculatorTest(unittest.TestCase):
         sess.query(Investor).delete()
         sess.commit()
         self.calculator = calculator
-        self.calculator.time.sleep = sleep_once
+        self.calculator.time.sleep = sleep_func()
         self.reddit = Reddit()
         self.calculator.praw.Reddit = Mock(return_value=self.reddit)
         self.calculator.create_engine = Mock(return_value=engine)
