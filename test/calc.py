@@ -19,7 +19,7 @@ class DoneException(BaseException):
     pass
 
 def sleep_once(time):
-    if time > 5:
+    if time < 10:
         return
     raise DoneException()
 
