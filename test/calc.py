@@ -85,6 +85,4 @@ class CalculatorTest(unittest.TestCase):
         investor = sess.query(Investor).\
             filter(Investor.name == investor.name).\
             one()
-        print(investor.name)
-        print(investor.balance)
         self.assertTrue(investor.balance != config.STARTING_BALANCE)
