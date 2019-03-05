@@ -50,9 +50,9 @@ class CalculatorTest(unittest.TestCase):
         sess.query(Investor).delete()
         sess.commit()
 
-    def create_investment(self, amount, start_upvotes, end_upvotes):
-        submission = Submission('sid1')
-        comment = Comment('cid1', 'investor1', 'dummy', submission)
+    def create_investment(self, amount, start_upvotes, end_upvotes, id='0'):
+        submission = Submission('sid' + id)
+        comment = Comment('cid' + id, 'investor' + id, 'dummy', submission)
         self.reddit.add_submission(submission)
         investment = Investment(
             post=comment.submission.id,
@@ -63,19 +63,28 @@ class CalculatorTest(unittest.TestCase):
             response="0",
             done=False,
         )
-        investor = Investor(name='investor1')
+        investor = Investor(name='investor' + id)
         investment.time = int(time.time()) - config.INVESTMENT_DURATION - 1
         submission.ups = end_upvotes
         sess = self.Session()
-        sess.add(investor)
+        sess.merge(investor)
         sess.add(investment)
         sess.commit()
         return investor, investment
 
     def test_base(self):
         try:
-            investor, _ = self.create_investment(100, 0, 100)
+            investor, _ = self.create_investment(100, 0, 100, '0')
+            self.create_investment(100, 100, 100, '1')
+            self.create_investment(100, 100, 169, '2')
+            self.create_investment(calculator.BALANCE_CAP, 0, 100, 'top')
             self.calculator.main()
         except DoneException:
             pass
-        self.assertTrue(investor.balance != config.STARTING_BALANCE)        
+        sess = self.Session()
+        investor = sess.query(Investor).\
+            filter(Investor.name == investor.name).\
+            one()
+        print(investor.name)
+        print(investor.balance)
+        self.assertTrue(investor.balance != config.STARTING_BALANCE)
