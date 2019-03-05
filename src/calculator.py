@@ -3,7 +3,7 @@ import time
 import logging
 import traceback
 
-from sqlalchemy import create_engine, func, and_
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import praw
 
