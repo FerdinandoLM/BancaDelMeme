@@ -1,18 +1,15 @@
 import sys
 sys.path.append('src')
-import os
-import signal
 
 import unittest
-import time
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 import submitter
-import config
-from models import Base, Investor, Firm, Investment
-from mock_praw import Comment, Submission, Reddit
+import message
+from models import Investor, Investment
+from mock_praw import Reddit
 from unittest.mock import Mock
 
 class DoneException(BaseException):
@@ -32,7 +29,7 @@ class SubmitterTest(unittest.TestCase):
     def setUp(self):
         # create sqlite db
         engine = create_engine('sqlite:///.testenv/test.db')
-        self.Session = session_maker = scoped_session(sessionmaker(bind=engine))
+        self.Session = scoped_session(sessionmaker(bind=engine))
         sess = self.Session()
         sess.query(Investment).delete()
         sess.query(Investor).delete()
@@ -55,5 +52,7 @@ class SubmitterTest(unittest.TestCase):
             self.submitter.main()
         except DoneException:
             pass
-        replies = self.reddit.subreddit().stream.submissions()[0].replies
+        submission = self.reddit.subreddit().stream.submissions()[0]
+        replies = submission.replies
         self.assertEqual(len(replies), 1)
+        self.assertEqual(replies[0].body, message.invest_no_fee('u/' + submission.author.name))

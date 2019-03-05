@@ -1,7 +1,5 @@
 import sys
 sys.path.append('src')
-import os
-import signal
 
 import unittest
 import time
@@ -11,7 +9,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 import calculator
 import config
-from models import Base, Investor, Firm, Investment
+from models import Investor, Investment
 from mock_praw import Comment, Submission, Reddit
 from unittest.mock import Mock
 
@@ -32,7 +30,7 @@ class CalculatorTest(unittest.TestCase):
     def setUp(self):
         # create sqlite db
         engine = create_engine('sqlite:///.testenv/test.db')
-        self.Session = session_maker = scoped_session(sessionmaker(bind=engine))
+        self.Session = scoped_session(sessionmaker(bind=engine))
         sess = self.Session()
         sess.query(Investment).delete()
         sess.query(Investor).delete()
@@ -50,9 +48,10 @@ class CalculatorTest(unittest.TestCase):
         sess.query(Investor).delete()
         sess.commit()
 
-    def create_investment(self, amount, start_upvotes, end_upvotes, id='0'):
-        submission = Submission('sid' + id)
-        comment = Comment('cid' + id, 'investor' + id, 'dummy', submission)
+    def create_investment(self, amount, start_upvotes, end_upvotes, iid='0'):
+        investor = Investor(name='investor' + iid)
+        submission = Submission('sid' + iid)
+        comment = Comment('cid' + iid, investor.name, 'dummy', submission)
         self.reddit.add_submission(submission)
         investment = Investment(
             post=comment.submission.id,
@@ -63,11 +62,10 @@ class CalculatorTest(unittest.TestCase):
             response="0",
             done=False,
         )
-        investor = Investor(name='investor' + id)
         investment.time = int(time.time()) - config.INVESTMENT_DURATION - 1
         submission.ups = end_upvotes
         sess = self.Session()
-        sess.merge(investor)
+        sess.add(investor)
         sess.add(investment)
         sess.commit()
         return investor, investment
