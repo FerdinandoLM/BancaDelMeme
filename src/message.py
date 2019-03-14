@@ -46,17 +46,17 @@ def modify_invest(amount, initial_upvotes, new_balance):
         replace("%BALANCE%", format(new_balance, ",d"))
 
 INVEST_WIN_ORG = """
-*%AMOUNT% Mem€ investite @ %INITIAL_UPVOTES% %UPVOTES_WORD%*
+*%AMOUNT% Mem€ investiti @ %INITIAL_UPVOTES% %UPVOTES_WORD%*
 
 UPDATE: Il tuo investimento è maturato. È andato alla grande! Hai guadagnato %PROFIT% Mem€ (%PERCENT%).
 
-*%RETURNED% Mem€ restituite @ %FINAL_UPVOTES% %UPVOTES_WORD%*
+*%RETURNED% Mem€ restituiti @ %FINAL_UPVOTES% %UPVOTES_WORD%*
 
 Il tuo nuovo saldo is **%BALANCE% Mem€**.
 """.replace("%UPVOTES_WORD%", utils.upvote_string())
 
 INVEST_LOSE_ORG = """
-*%AMOUNT% Mem€ investite @ %INITIAL_UPVOTES% %UPVOTES_WORD%*
+*%AMOUNT% Mem€ investiti @ %INITIAL_UPVOTES% %UPVOTES_WORD%*
 
 UPDATE: Il tuo investimento è maturato. Non è andato bene! Hai perso %PROFIT% Mem€ (%PERCENT%).
 
@@ -66,7 +66,7 @@ Il tuo nuovo saldo is **%BALANCE% Mem€**.
 """.replace("%UPVOTES_WORD%", utils.upvote_string())
 
 INVEST_BREAK_EVEN_ORG = """
-*%AMOUNT% Mem€ investite @ %INITIAL_UPVOTES% %UPVOTES_WORD%*
+*%AMOUNT% Mem€ investiti @ %INITIAL_UPVOTES% %UPVOTES_WORD%*
 
 UPDATE: Il tuo investimento è maturato. Sei andato in pari! Hai guadagnato %PROFIT% Mem€ (%PERCENT%).
 
@@ -96,7 +96,7 @@ def modify_invest_return(amount, initial_upvotes,
         replace("%BALANCE%", format(int(new_balance), ",d"))
 
 INVEST_CAPPED_ORG = """
-*%AMOUNT% Mem€ investite @ %INITIAL_UPVOTES% %UPVOTES_WORD%*
+*%AMOUNT% Mem€ investiti @ %INITIAL_UPVOTES% %UPVOTES_WORD%*
 
 UPDATE: Il tuo investimento è maturato a %FINAL_UPVOTES% %UPVOTES_WORD%, con un profitto di %PROFIT% Mem€ (%PERCENT%).
 
