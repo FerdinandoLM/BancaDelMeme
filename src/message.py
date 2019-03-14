@@ -171,12 +171,12 @@ COMANDI PER LE societa (BETA)
 - `!creasocieta <name>`
 - `!entrainsocieta <name>`
 - `!lasciasocieta`
-- `!promuovi <username>` **(Solo per i CEO e Exec)**
-- `!licenzia <username>` **(Solo per i CEO and Exec)**
+- `!promuovi <username>` **(Solo per i CEO e dirigenti)**
+- `!licenzia <username>` **(Solo per i CEO and dirigenti)**
 - `!upgrade` **(Solo per i CEO)**
 - `!impostaprivato` **(Solo per i CEO)**
 - `!impostapubblico` **(Solo per i CEO)**
-- `!invita <username>` **(Solo per i CEO e Exec)**
+- `!invita <username>` **(Solo per i CEO e dirigenti)**
 """
 
 HELP_ORG = """
@@ -241,7 +241,7 @@ def modify_active(active_investments):
         replace("%INVESTMENTS_LIST%", investments_list)
 
 MIN_INVEST_ORG = """
-L'investimento minimo consentito è di 100 Mem€.
+L'investimento minimo consentito è di 100 Mem€ o di %MIN% (1% del tuo saldo); il più alto dei due.
 """
 
 def modify_min_invest(minim):
@@ -393,7 +393,7 @@ LIVELLO societa: **%LEVEL%**
 *CFO:*
 %CFO%
 
-*Executives:*
+*Dirigenti:*
 %EXECS%
 
 *Associati:*
@@ -437,10 +437,10 @@ Il tuo Rank: **%RANK%**
 *CFO:*
 %CFO%
 
-*Executives:*
+*Dirigenti:*
 %EXECS%
 
-*Associates:*
+*Associati:*
 %ASSOCS%
 
 *Trader semplici:*
@@ -466,16 +466,16 @@ def modify_firm_self(rank, firm, ceo, coo, cfo, execs, assocs, traders):
         replace("%LEVEL%", str(firm.rank + 1))
 
 firm_notfound_org = """
-No firm was found with this name.
+Nessuna societa trovata con questo nome.
 """
 
 rank_strs = {
     "ceo": "CEO",
     "coo": "COO",
     "cfo": "CFO",
-    "exec": "Executive",
-    "assoc": "Associate",
-    "": "Floor Trader"
+    "exec": "Dirigente",
+    "assoc": "Associato",
+    "": "Trader semplice"
 }
 
 createfirm_exists_failure_org = """
@@ -514,7 +514,7 @@ no_firm_failure_org = leavefirm_none_failure_org
 leavefirm_ceo_failure_org = """
 Al momento sei il CEO della tua societa, quindi non ti è permesso andartene. Non fare lo schettino della finanza.
 
-Se davvero vuoi andartene, dovrai prima rinunciare al tuo ruolo. Per farlo dovrai promuovere un executive al ruolo di CEO col comando **!promuovi <username>**.
+Se davvero vuoi andartene, dovrai prima rinunciare al tuo ruolo. Per farlo dovrai promuovere un dirigente al ruolo di CEO col comando **!promuovi <username>**.
 """
 
 leavefirm_org = """
@@ -526,19 +526,19 @@ Solo il CEO può farlo.
 """
 
 not_ceo_or_coo_org = """
-Only the CEO or COO can do that.
+Solo il CEO o il COO può farlo.
 """
 
 not_ceo_or_cfo_org = """
-Only the CEO or CFO can do that.
+Solo il CEO o il CFO può farlo.
 """
 
 not_ceo_or_exec_org = """
-Solo il CEO e gli executives possono farlo.
+Solo il CEO o un dirigente può farlo.
 """
 
 not_assoc_org = """
-Floor Traders cannot send invites.
+I trader semplici non possono mandare inviti
 """
 
 promote_failure_org = """
@@ -567,11 +567,11 @@ def modify_promote_execs_full(firm):
         replace("%LEVEL%", str(firm.rank + 1))
 
 promote_assocs_full_org = """
-Could not promote this employee since the firm is at its maximum associate limit.
-**Number of associates:** %ASSOCS%
-**Firm level:** %LEVEL%
+Non ho potuto promuovere questo impiegato, poiché la societa è alla sua capacità di associati massima. 
+**Numero di associati:** %ASSOCS%
+**Livello societa:** %LEVEL%
 
-The CEO or CFO of the firm can raise this limit by upgrading with `!upgrade`.
+Il CEO o il CFO della societa possono aumentare il livello col comando `!upgrade`.
 """
 
 def modify_promote_assocs_full(firm):
@@ -580,7 +580,7 @@ def modify_promote_assocs_full(firm):
         replace("%LEVEL%", str(firm.rank + 1))
 
 promote_org = """
-Successfully promoted **/u/%NAME%** to **%RANK%**.
+ Promosso con successo! **/u/%NAME%** ora è **%RANK%**.
 """
 
 def modify_promote(user):
@@ -590,7 +590,7 @@ def modify_promote(user):
         replace("%RANK%", rank_str)
 
 fire_org = """
-Successfully fired **/u/%NAME%** from the firm.
+Licenziato con successo **/u/%NAME%** dalla societa.
 """
 
 def modify_fire(user):

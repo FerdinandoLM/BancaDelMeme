@@ -136,7 +136,7 @@ class CommentWorker():
         r"!crea",
         r"!aiuto\s*!?(.+)?",
         r"!ignora",
-        r"!investi\s+([\d,.]+)\s*(%s)?(?:\s|$)" % "|".join(multipliers),		
+        r"!investi\s+([\d,.]+)\s*(%s)?(?:\s|$)" % "|".join(multipliers),
         r"!invest\s+([\d,.]+)\s*(%s)?(?:\s|$)" % "|".join(multipliers),
         r"!mercato",
         r"!top",
