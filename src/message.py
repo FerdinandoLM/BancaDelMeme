@@ -229,7 +229,7 @@ def modify_active(active_investments):
             remaining_string = str(td).split(".")[0] + " rimanenti"
         else:
             remaining_string = "in elaborazione"
-        post_url = f"https://www.reddit.com/r/BancaDelMeme/comments/{inv.post}"
+        post_url = f"https://www.reddit.com/r/BancaDelMeme/comments/{inv.post}/_/{inv.comment}"
         inv_string = f"[#{i}]({post_url}): {inv.amount} Mem€ @ {inv.upvotes} %UPVOTES_WORD% ({remaining_string})"\
             .replace("%UPVOTES_WORD%", utils.upvote_string())
         investments_strings.append(inv_string)
@@ -243,6 +243,10 @@ def modify_active(active_investments):
 MIN_INVEST_ORG = """
 L'investimento minimo consentito è di 100 Mem€.
 """
+
+def modify_min_invest(minim):
+    return MIN_INVEST_ORG.\
+        replace("%MIN%", format(int(minim), ",d"))
 
 MARKET_ORG = """
 Il mercato, in questo momento, ha **%NUMBER%** investimenti attivi.
@@ -383,12 +387,33 @@ LIVELLO societa: **%LEVEL%**
 *CEO:*
 %CEO%
 
+*COO:*
+%COO%
+
+*CFO:*
+%CFO%
+
 *Executives:*
 %EXECS%
+
+*Associati:*
+%ASSOCS%
 
 *Trader semplici:*
 %TRADERS%
 """
+
+def modify_firm_other(firm, ceo, coo, cfo, execs, assocs, traders):
+    return firm_other_org.\
+        replace("%FIRM_NAME%", firm.name).\
+        replace("%CEO%", ceo).\
+        replace("%COO%", coo).\
+        replace("%CFO%", cfo).\
+        replace("%EXECS%", execs).\
+        replace("%ASSOCS%", assocs).\
+        replace("%TRADERS%", traders).\
+        replace("%BALANCE%", "{:,}".format(firm.balance)).\
+        replace("%LEVEL%", str(firm.rank + 1))
 
 firm_self_org = """
 societa: **%FIRM_NAME%**
@@ -406,8 +431,17 @@ Il tuo Rank: **%RANK%**
 *CEO:*
 %CEO%
 
+*COO:*
+%COO%
+
+*CFO:*
+%CFO%
+
 *Executives:*
 %EXECS%
+
+*Associates:*
+%ASSOCS%
 
 *Trader semplici:*
 %TRADERS%
@@ -417,35 +451,32 @@ Il tuo Rank: **%RANK%**
 Puoi lasciare questa societa con il comando **!escidallasocieta**.
 """
 
-firm_notfound_org = """
-Nessuna societa trovata con questo nome.
-"""
-
-rank_strs = {
-    "ceo": "CEO",
-    "exec": "Executive",
-    "": "Trader semplice"
-}
-
-def modify_firm_other(firm, ceo, execs, traders):
-    return firm_other_org.\
-        replace("%FIRM_NAME%", firm.name).\
-        replace("%CEO%", ceo).\
-        replace("%EXECS%", execs).\
-        replace("%TRADERS%", traders).\
-        replace("%BALANCE%", "{:,}".format(firm.balance)).\
-        replace("%LEVEL%", str(firm.rank + 1))
-
-def modify_firm_self(rank, firm, ceo, execs, traders):
+def modify_firm_self(rank, firm, ceo, coo, cfo, execs, assocs, traders):
     rank_str = rank_strs[rank]
     return firm_self_org.\
         replace("%RANK%", rank_str).\
         replace("%FIRM_NAME%", firm.name).\
         replace("%CEO%", ceo).\
+        replace("%COO%", coo).\
+        replace("%CFO%", cfo).\
         replace("%EXECS%", execs).\
+        replace("%ASSOCS%", assocs).\
         replace("%TRADERS%", traders).\
         replace("%BALANCE%", "{:,}".format(firm.balance)).\
         replace("%LEVEL%", str(firm.rank + 1))
+
+firm_notfound_org = """
+No firm was found with this name.
+"""
+
+rank_strs = {
+    "ceo": "CEO",
+    "coo": "COO",
+    "cfo": "CFO",
+    "exec": "Executive",
+    "assoc": "Associate",
+    "": "Floor Trader"
+}
 
 createfirm_exists_failure_org = """
 Sei già all'interno di questa societa: **%FIRM_NAME%**
@@ -494,26 +525,63 @@ not_ceo_org = """
 Solo il CEO può farlo.
 """
 
+not_ceo_or_coo_org = """
+Only the CEO or COO can do that.
+"""
+
+not_ceo_or_cfo_org = """
+Only the CEO or CFO can do that.
+"""
+
 not_ceo_or_exec_org = """
 Solo il CEO e gli executives possono farlo.
+"""
+
+not_assoc_org = """
+Floor Traders cannot send invites.
 """
 
 promote_failure_org = """
 Non sono riuscito a promuovere l'utente, assicurati che sia corretto (o che non sia un prestanome).
 """
 
-promote_full_org = """
-Non ho potuto promuovere questo impiegato, poiché la societa è alla sua capacità massima. 
-**Numero di execs:** %EXECS%
+promote_coo_full_org = """
+Non ho potuto promuovere questo impiegato, poiché la societa ha già un COO
+"""
+
+promote_cfo_full_org = """
+Non ho potuto promuovere questo impiegato, poiché la societa ha già un CFO
+"""
+
+promote_execs_full_org = """
+Non ho potuto promuovere questo impiegato, poiché la societa è alla sua capacità di dirigenti massima. 
+**Numero di dirigenti:** %EXECS%
 **Livello societa:** %LEVEL%
 
 Il CEO della societa può aumentare il livello col comando `!upgrade`.
 """
 
-def modify_promote_full(firm):
-    return promote_full_org.\
+def modify_promote_execs_full(firm):
+    return promote_execs_full_org.\
         replace("%EXECS%", str(firm.execs)).\
         replace("%LEVEL%", str(firm.rank + 1))
+
+promote_assocs_full_org = """
+Could not promote this employee since the firm is at its maximum associate limit.
+**Number of associates:** %ASSOCS%
+**Firm level:** %LEVEL%
+
+The CEO or CFO of the firm can raise this limit by upgrading with `!upgrade`.
+"""
+
+def modify_promote_assocs_full(firm):
+    return promote_assocs_full_org.\
+        replace("%ASSOCS%", str(firm.assocs)).\
+        replace("%LEVEL%", str(firm.rank + 1))
+
+promote_org = """
+Successfully promoted **/u/%NAME%** to **%RANK%**.
+"""
 
 def modify_promote(user):
     rank_str = rank_strs[user.firm_role]
@@ -521,18 +589,13 @@ def modify_promote(user):
         replace("%NAME%", user.name).\
         replace("%RANK%", rank_str)
 
-promote_org = """
-Promosso con successo! **/u/%NAME%** ora è **%RANK%**.
+fire_org = """
+Successfully fired **/u/%NAME%** from the firm.
 """
 
 def modify_fire(user):
     return fire_org.\
         replace("%NAME%", user.name)
-
-fire_org = """
-Vattene via, barbone, ci hai fatto perdere un sacco di soldi!
-**/u/%NAME%** licenziato dalla societa.
-"""
 
 fire_failure_org = """
 Non sono riuscito a cacciare l'utente, assicurati di aver scritto il nome correttamente, o che non abbia intestato a prestanomi il suo conto.
@@ -644,8 +707,6 @@ Se vuoi annullare tutto e tornare con una societa pubblica, scrivi `!impostapubb
 setpublic_org = """
 La tua societa è ora pubblica. I nuovi investitori potranno accedere senza essere invitati utilizzando il comando `!entrainsocieta <firm_name>`.
 
-Se vuoi annullare tutto e tornare con una societa privata, scrivi `!impostaprivato`.
-
 """
 upgrade_insufficient_funds_org = """
 La societa non ha abbastanza fondi per aumentare il proprio livello.
@@ -667,11 +728,12 @@ Hai migliorato con successo il livello della societa:  **Livello %LEVEL%**!
 La societa adesso supporta un massimo di **%MAX_MEMBERS% impiegati**, incluso un massimo di **%MAX_EXECS% executives**.
 """
 
-def modify_upgrade(firm, max_members, max_execs):
+def modify_upgrade(firm, max_members, max_execs, max_assocs):
     return upgrade_org.\
         replace("%LEVEL%", str(firm.rank + 1)).\
         replace("%MAX_MEMBERS%", str(max_members)).\
-        replace("%MAX_EXECS%", str(max_execs))
+        replace("%MAX_EXECS%", str(max_execs)).\
+        replace("%MAX_ASSOCS%", str(max_assocs))
 DEPLOY_VERSION = """
 La versione corrente del bot è stata installata il `%DATE%`
 """
