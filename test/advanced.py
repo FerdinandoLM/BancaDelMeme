@@ -30,4 +30,4 @@ class TestAdvanced(Test):
         self.assertEqual(len(replies), 1)
         replies = self.command('!investitutto', post='testpost2')
         self.assertEqual(len(replies), 1)
-        self.assertEqual(replies[0].body, message.MIN_INVEST_ORG)
+        self.assertEqual(replies[0].body, message.modify_min_invest(0))
