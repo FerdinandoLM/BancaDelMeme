@@ -194,6 +194,7 @@ Here is a list of commands that summon me:
 - `!crea` - Crea un conto di investimento
 - `!aiuto` - Mostra questo messaggio 
 - `!investi <quantità>` - Permette di investire i propri Mem€
+- `!investitutto` - Permette di investire tutti i propri Mem€
 - `!mercato` - Mostra il MeMercato Azionario attuale
 - `!top` - Mostra i migliori investitori 
 - `!versione` - Mostra la versione attuale del bot
