@@ -115,7 +115,7 @@ class TaxCollector():
         if i > 0:
             taxes = self.basics[i] + (networth - self.tiers[i]) / 100 * RATES[i]
             logging.info("Investor : %s (%d) - tier %d => -%d", investor.name, networth, i, taxes)
-            return investor.balance - taxes
+            return round(investor.balance - taxes)
         return investor.balance
 
 
