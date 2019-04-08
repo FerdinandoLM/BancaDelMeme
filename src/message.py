@@ -16,10 +16,12 @@ Grazie %USERNAME% per aver creato un conto /r/BancaDelMeme!
 Il tuo saldo iniziale è **%BALANCE% Mem€**.
 """
 
+
 def modify_create(username, balance):
-    return CREATE_ORG.\
-        replace("%USERNAME%", str(username)).\
+    return CREATE_ORG. \
+        replace("%USERNAME%", str(username)). \
         replace("%BALANCE%", format(balance, ",d"))
+
 
 # This message will be sent if a user tries to create an account but already
 # has one.
@@ -39,11 +41,13 @@ Il tuo saldo attuale è **%BALANCE% Mem€**.
 """.replace("%TIME%", INVESTMENT_DURATION_VAR).\
     replace("%UPVOTES_WORD%", utils.upvote_string())
 
+
 def modify_invest(amount, initial_upvotes, new_balance):
-    return INVEST_ORG.\
-        replace("%AMOUNT%", format(amount, ",d")).\
-        replace("%INITIAL_UPVOTES%", format(initial_upvotes, ",d")).\
+    return INVEST_ORG. \
+        replace("%AMOUNT%", format(amount, ",d")). \
+        replace("%INITIAL_UPVOTES%", format(initial_upvotes, ",d")). \
         replace("%BALANCE%", format(new_balance, ",d"))
+
 
 INVEST_WIN_ORG = """
 *%AMOUNT% Mem€ investiti @ %INITIAL_UPVOTES% %UPVOTES_WORD%*
@@ -75,6 +79,7 @@ UPDATE: Il tuo investimento è maturato. Sei andato in pari! Hai guadagnato %PRO
 Il tuo nuovo saldo is **%BALANCE% Mem€**.
 """.replace("%UPVOTES_WORD%", utils.upvote_string())
 
+
 def modify_invest_return(amount, initial_upvotes,
                          final_upvotes, returned,
                          profit, percent_str, new_balance):
@@ -86,14 +91,15 @@ def modify_invest_return(amount, initial_upvotes,
     else:
         original = INVEST_BREAK_EVEN_ORG
 
-    return original.\
-        replace("%AMOUNT%", format(amount, ",d")).\
-        replace("%INITIAL_UPVOTES%", format(initial_upvotes, ",d")).\
-        replace("%FINAL_UPVOTES%", format(final_upvotes, ",d")).\
-        replace("%RETURNED%", format(returned, ",d")).\
-        replace("%PROFIT%", format(profit, ",d")).\
-        replace("%PERCENT%", format(percent_str)).\
+    return original. \
+        replace("%AMOUNT%", format(amount, ",d")). \
+        replace("%INITIAL_UPVOTES%", format(initial_upvotes, ",d")). \
+        replace("%FINAL_UPVOTES%", format(final_upvotes, ",d")). \
+        replace("%RETURNED%", format(returned, ",d")). \
+        replace("%PROFIT%", format(profit, ",d")). \
+        replace("%PERCENT%", format(percent_str)). \
         replace("%BALANCE%", format(int(new_balance), ",d"))
+
 
 INVEST_CAPPED_ORG = """
 *%AMOUNT% Mem€ investiti @ %INITIAL_UPVOTES% %UPVOTES_WORD%*
@@ -107,16 +113,18 @@ UPDATE: Il tuo investimento è maturato a %FINAL_UPVOTES% %UPVOTES_WORD%, con un
 Il tuo saldo attuale è **%BALANCE% Mem€** (il saldo massimo).
 """.replace("%UPVOTES_WORD%", utils.upvote_string())
 
+
 def modify_invest_capped(amount, initial_upvotes,
                          final_upvotes, returned,
                          profit, percent_str, new_balance):
-    return INVEST_CAPPED_ORG.\
-        replace("%AMOUNT%", format(amount, ",d")).\
-        replace("%INITIAL_UPVOTES%", format(initial_upvotes, ",d")).\
-        replace("%FINAL_UPVOTES%", format(final_upvotes, ",d")).\
-        replace("%PROFIT%", format(profit, ",d")).\
-        replace("%PERCENT%", str(percent_str)).\
+    return INVEST_CAPPED_ORG. \
+        replace("%AMOUNT%", format(amount, ",d")). \
+        replace("%INITIAL_UPVOTES%", format(initial_upvotes, ",d")). \
+        replace("%FINAL_UPVOTES%", format(final_upvotes, ",d")). \
+        replace("%PROFIT%", format(profit, ",d")). \
+        replace("%PERCENT%", str(percent_str)). \
         replace("%BALANCE%", format(new_balance, ",d"))
+
 
 # If funds are insufficient to make an investment
 # say that
@@ -128,9 +136,11 @@ Il tuo saldo attuale è **%BALANCE% Mem€**.
 Se hai meno di 100 Mem€ e nessun investimento in corso, prova ad inviare `!bancarotta`!
 """
 
+
 def modify_insuff(balance_t):
-    return INSUFF_ORG.\
+    return INSUFF_ORG. \
         replace("%BALANCE%", format(balance_t, ",d"))
+
 
 # Message if you are broke
 BROKE_ORG = """
@@ -141,8 +151,9 @@ Il tuo saldo è stato resettato a 100 Mem€. Sta attento la prossima volta.
 Sei andato in bancarotta %NUMBER% volte.
 """
 
+
 def modify_broke(times):
-    return BROKE_ORG.\
+    return BROKE_ORG. \
         replace("%NUMBER%", str(times))
 
 # Message if you are broke and have investimenti attivi
@@ -152,8 +163,9 @@ Hai ancora %ACTIVE% investmento/i attivi.
 Dovrai attendere che vengano completati.
 """
 
+
 def modify_broke_active(active):
-    return BROKE_ACTIVE_ORG.\
+    return BROKE_ACTIVE_ORG. \
         replace("%ACTIVE%", str(active))
 
 # Message if you are broke and have more than 100 Mem€
@@ -161,8 +173,9 @@ BROKE_MONEY_ORG = """
 Non sei così povero! Hai ancora **%AMOUNT% Mem€**.
 """
 
+
 def modify_broke_money(amount):
-    return BROKE_MONEY_ORG.\
+    return BROKE_MONEY_ORG. \
         replace("%AMOUNT%", format(amount, ",d"))
 
 """
@@ -207,15 +220,18 @@ BALANCE_ORG = """
 Attualmente, il tuo saldo è **%BALANCE% Mem€**.
 """
 
+
 def modify_balance(balance):
-    return BALANCE_ORG.\
+    return BALANCE_ORG. \
         replace("%BALANCE%", format(balance, ",d"))
+
 
 ACTIVE_ORG = """
 Hai %NUMBER% investimenti attivi:
 
 %INVESTMENTS_LIST%
 """
+
 
 def modify_active(active_investments):
     if not active_investments:
@@ -237,17 +253,20 @@ def modify_active(active_investments):
         i += 1
     investments_list = "\n\n".join(investments_strings)
 
-    return ACTIVE_ORG.\
-        replace("%NUMBER%", str(len(active_investments))).\
+    return ACTIVE_ORG. \
+        replace("%NUMBER%", str(len(active_investments))). \
         replace("%INVESTMENTS_LIST%", investments_list)
+
 
 MIN_INVEST_ORG = """
 L'investimento minimo consentito è di 100 Mem€ o di %MIN% (1% del tuo saldo); il più alto dei due.
 """
 
+
 def modify_min_invest(minim):
-    return MIN_INVEST_ORG.\
+    return MIN_INVEST_ORG. \
         replace("%MIN%", format(int(minim), ",d"))
+
 
 MARKET_ORG = """
 Il mercato, in questo momento, ha **%NUMBER%** investimenti attivi.
@@ -257,11 +276,13 @@ Tutti gli investitori possiedono **%MONEY% Mem€**.
 Ci sono **%HODL% Mem€** in circolazione su investimenti al momento.
 """
 
+
 def modify_market(inves, cap, invs_cap):
-    return MARKET_ORG.\
-        replace("%NUMBER%", format(int(inves), ",d")).\
-        replace("%MONEY%", format(int(cap), ",d")).\
+    return MARKET_ORG. \
+        replace("%NUMBER%", format(int(inves), ",d")). \
+        replace("%MONEY%", format(int(cap), ",d")). \
         replace("%HODL%", format(int(invs_cap), ",d"))
+
 
 # Message used for !top command
 TOP_ORG = """
@@ -269,6 +290,7 @@ Gli investitori con il valore netto più alto (saldo + investimenti attivi):
 
 %TOP_STRING%
 """
+
 
 def modify_top(leaders):
     top_string = ""
@@ -278,6 +300,7 @@ def modify_top(leaders):
     top_response = TOP_ORG
     top_response = top_response.replace("%TOP_STRING%", top_string)
     return top_response
+
 
 DELETED_COMMENT_ORG = """
 Dov'è finito?
@@ -305,9 +328,11 @@ Per prevenire spam e altri catastrofi naturali, considero solamente risposte a q
 - Nuovo utente? Ti senti perso e confuso? Rispondi `!aiuto` a questo messaggio, o visita la pagina [Wiki](https://www.reddit.com/r/BancaDelMeme/wiki/index) per una spiegazione più dettagliata.
 """
 
+
 def invest_no_fee(name):
-    return INVEST_PLACE_HERE_NO_FEE + TEMPLATE_HINT_ORG.\
+    return INVEST_PLACE_HERE_NO_FEE + TEMPLATE_HINT_ORG. \
         replace("%NAME%", name)
+
 
 INVEST_PLACE_HERE = """
 **GLI INVESTIMENTI VANNO QUI - SOLO LE RISPOSTE DIRETTE A QUESTO MESSAGGIO VERRANNO ELABORATE**
@@ -325,20 +350,25 @@ L'autore di questo post ha pagato **%MEMECOIN% Mem€** per postare.
 - Nuovo utente? Ti senti perso e confuso? Rispondi `!aiuto` a questo messaggio, o visita la pagina [Wiki](https://www.reddit.com/r/BancaDelMeme/wiki/index) per una spiegazione più dettagliata.
 """ + TEMPLATE_HINT_ORG
 
+
 def modify_invest_place_here(amount, name):
-    return INVEST_PLACE_HERE.\
-        replace("%MEMECOIN%", format(int(amount), ",d")) + TEMPLATE_HINT_ORG.\
-        replace("%NAME%", name)
+    return INVEST_PLACE_HERE. \
+               replace("%MEMECOIN%", format(int(amount), ",d")) + TEMPLATE_HINT_ORG. \
+               replace("%NAME%", name)
+
 
 INSIDE_TRADING_ORG = """
 Non puoi investire nei tuoi stessi meme! Non è consentito fare insider trading!
 """
 
+
 def modify_grant_success(grantee, badge):
     return f"Badge assegnato con successo `{badge}` a {grantee}!"
 
+
 def modify_grant_failure(failure_message):
     return f"Oops, Non ho potuto assegnare il badge ({failure_message})"
+
 
 NO_ACCOUNT_POST_ORG = """
 Hai bisogno di creare un account per postare un meme. Per favore, rispondi ad uno dei miei commenti con `!crea`.
@@ -356,9 +386,11 @@ Fatti risentire quando avrai più soldi, rimanda il meme con un nuovo post.
 Il tuo saldo attuale è **%Mem€% Mem€**.
 """
 
+
 def modify_pay_to_post(balance):
     return PAY_TO_POST_ORG.\
         replace("%Mem€%", str(balance))
+
 
 MAINTENANCE_ORG = """
 **Il bot è in manutenzione per ragioni tecniche.**
@@ -375,7 +407,7 @@ Puoi crearne una con il comando **!creasocieta <NOME societa>**, oppure richiede
 """
 
 firm_other_org = """
-societa: **%FIRM_NAME%**
+Societa: **%FIRM_NAME%**
 
 BILANCIO societa: **%BALANCE%** Mem€
 
@@ -404,17 +436,20 @@ LIVELLO societa: **%LEVEL%**
 %TRADERS%
 """
 
+
 def modify_firm_other(firm, ceo, coo, cfo, execs, assocs, traders):
-    return firm_other_org.\
-        replace("%FIRM_NAME%", firm.name).\
-        replace("%CEO%", ceo).\
-        replace("%COO%", coo).\
-        replace("%CFO%", cfo).\
-        replace("%EXECS%", execs).\
-        replace("%ASSOCS%", assocs).\
-        replace("%TRADERS%", traders).\
-        replace("%BALANCE%", "{:,}".format(firm.balance)).\
+    return firm_other_org. \
+        replace("%FIRM_NAME%", firm.name). \
+        replace("%FIRM_ID%", str(firm.id)). \
+        replace("%CEO%", ceo). \
+        replace("%COO%", coo). \
+        replace("%CFO%", cfo). \
+        replace("%EXECS%", execs). \
+        replace("%ASSOCS%", assocs). \
+        replace("%TRADERS%", traders). \
+        replace("%BALANCE%", "{:,}".format(firm.balance)). \
         replace("%LEVEL%", str(firm.rank + 1))
+
 
 firm_self_org = """
 societa: **%FIRM_NAME%**
@@ -452,19 +487,22 @@ Il tuo Rank: **%RANK%**
 Puoi lasciare questa societa con il comando **!escidallasocieta**.
 """
 
+
 def modify_firm_self(rank, firm, ceo, coo, cfo, execs, assocs, traders):
     rank_str = rank_strs[rank]
-    return firm_self_org.\
-        replace("%RANK%", rank_str).\
-        replace("%FIRM_NAME%", firm.name).\
-        replace("%CEO%", ceo).\
-        replace("%COO%", coo).\
-        replace("%CFO%", cfo).\
-        replace("%EXECS%", execs).\
-        replace("%ASSOCS%", assocs).\
-        replace("%TRADERS%", traders).\
-        replace("%BALANCE%", "{:,}".format(firm.balance)).\
+    return firm_self_org. \
+        replace("%RANK%", rank_str). \
+        replace("%FIRM_NAME%", firm.name). \
+        replace("%FIRM_ID%", str(firm.id)). \
+        replace("%CEO%", ceo). \
+        replace("%COO%", coo). \
+        replace("%CFO%", cfo). \
+        replace("%EXECS%", execs). \
+        replace("%ASSOCS%", assocs). \
+        replace("%TRADERS%", traders). \
+        replace("%BALANCE%", "{:,}".format(firm.balance)). \
         replace("%LEVEL%", str(firm.rank + 1))
+
 
 firm_notfound_org = """
 Nessuna societa trovata con questo nome.
@@ -489,9 +527,11 @@ createfirm_cost_failure_org = """
 Creare una societa costa 1,000,000 Mem€, e tu sei un poveraccio. Vai a fare della grana, e fatti rivedere solo quando ne avrai abbastanza.
 """
 
+
 def modify_createfirm_exists_failure(firm_name):
-    return createfirm_exists_failure_org.\
+    return createfirm_exists_failure_org. \
         replace("%FIRM_NAME%", firm_name)
+
 
 createfirm_format_failure_org = """
 I nomi delle societa devono avere tra 4 e 32 caratteri. Sono consentiti solo caratteri alfanumerici, spazi, trattini medi e bassi (- e _)
@@ -562,10 +602,12 @@ Non ho potuto promuovere questo impiegato, poiché la societa è alla sua capaci
 Il CEO della societa può aumentare il livello col comando `!upgrade`.
 """
 
+
 def modify_promote_execs_full(firm):
-    return promote_execs_full_org.\
-        replace("%EXECS%", str(firm.execs)).\
+    return promote_execs_full_org. \
+        replace("%EXECS%", str(firm.execs)). \
         replace("%LEVEL%", str(firm.rank + 1))
+
 
 promote_assocs_full_org = """
 Non ho potuto promuovere questo impiegato, poiché la societa è alla sua capacità di associati massima. 
@@ -575,28 +617,88 @@ Non ho potuto promuovere questo impiegato, poiché la societa è alla sua capaci
 Il CEO o il CFO della societa possono aumentare il livello col comando `!upgrade`.
 """
 
+
 def modify_promote_assocs_full(firm):
-    return promote_assocs_full_org.\
-        replace("%ASSOCS%", str(firm.assocs)).\
+    return promote_assocs_full_org. \
+        replace("%ASSOCS%", str(firm.assocs)). \
         replace("%LEVEL%", str(firm.rank + 1))
 
+
 promote_org = """
- Promosso con successo! **/u/%NAME%** ora è **%RANK%**.
+ Promosso con successo! **/u/%NAME%**, da **%OLDRANK%** a **%NEWRANK%**.
 """
 
-def modify_promote(user):
-    rank_str = rank_strs[user.firm_role]
-    return promote_org.\
-        replace("%NAME%", user.name).\
-        replace("%RANK%", rank_str)
+
+def modify_promote(user, old_role):
+    return promote_org. \
+        replace("%NAME%", user.name). \
+        replace("%OLDRANK%", rank_strs[old_role]). \
+        replace("%NEWRANK%", rank_strs[user.firm_role])
+
+
+demote_failure_org = """
+Failed to demote user, make sure you used the correct username.
+"""
+
+demote_failure_trader_org = """
+Failed to demote user, they are already a Floor Trader. Use `!fire <username>` if you would like to remove them from the firm.
+"""
+
+demote_cfo_full_org = """
+Could not demote this employee since the firm already has a CFO.
+"""
+
+demote_execs_full_org = """
+Could not demote this employee since the firm is at its maximum executive limit.
+**Number of executives:** %EXECS%
+**Firm level:** %LEVEL%
+
+The CEO or CFO of the firm can raise this limit by upgrading with `!upgrade`.
+"""
+
+
+def modify_demote_execs_full(firm):
+    return demote_execs_full_org. \
+        replace("%EXECS%", str(firm.execs)). \
+        replace("%LEVEL%", str(firm.rank + 1))
+
+
+demote_assocs_full_org = """
+Could not demote this employee since the firm is at its maximum associate limit.
+**Number of associates:** %ASSOCS%
+**Firm level:** %LEVEL%
+
+The CEO or CFO of the firm can raise this limit by upgrading with `!upgrade`.
+"""
+
+
+def modify_demote_assocs_full(firm):
+    return demote_assocs_full_org. \
+        replace("%ASSOCS%", str(firm.assocs)). \
+        replace("%LEVEL%", str(firm.rank + 1))
+
+
+demote_org = """
+Successfully demoted **/u/%NAME%** from **%OLDRANK%** to **%NEWRANK%**.
+"""
+
+
+def modify_demote(user, old_role):
+    return demote_org. \
+        replace("%NAME%", user.name). \
+        replace("%OLDRANK%", rank_strs[old_role]). \
+        replace("%NEWRANK%", rank_strs[user.firm_role])
+
 
 fire_org = """
 Licenziato con successo **/u/%NAME%** dalla societa.
 """
 
+
 def modify_fire(user):
-    return fire_org.\
+    return fire_org. \
         replace("%NAME%", user.name)
+
 
 fire_failure_org = """
 Non sono riuscito a cacciare l'utente, assicurati di aver scritto il nome correttamente, o che non abbia intestato a prestanomi il suo conto.
@@ -625,18 +727,22 @@ Non puoi unirti alla societa poiché ha raggiunto il numero massimo di membri.
 Il CEO della societa può aumentare il livello col comando `!upgrade`
 """
 
+
 def modify_joinfirm_full(firm):
-    return joinfirm_full_org.\
-        replace("%MEMBERS%", str(firm.size)).\
+    return joinfirm_full_org. \
+        replace("%MEMBERS%", str(firm.size)). \
         replace("%LEVEL%", str(firm.rank + 1))
+
 
 joinfirm_org = """
 Adesso sei un trader semplice della societa **%NAME%**. Se vuoi uscire dalla societa scrivi *!escidallasocieta*.
 """
 
+
 def modify_joinfirm(firm):
-    return joinfirm_org.\
+    return joinfirm_org. \
         replace("%NAME%", firm.name)
+
 
 FIRM_TAX_ORG = """
 
@@ -645,10 +751,12 @@ FIRM_TAX_ORG = """
 %AMOUNT% Mem€ sono stati inviati alla societa - %NAME%.
 """
 
+
 def modify_firm_tax(tax_amount, firm_name):
-    return FIRM_TAX_ORG.\
-        replace("%AMOUNT%", str(tax_amount)).\
+    return FIRM_TAX_ORG. \
+        replace("%AMOUNT%", str(tax_amount)). \
         replace("%NAME%", firm_name)
+
 
 TEMPLATE_NOT_OP = """
 Spiacente, ma non sei OP
@@ -668,10 +776,13 @@ TEMPLATE_OP = """
 OP %NAME% ha postato *[IL LINK AL TEMPLATE](%LINK%)*, Evviva!
 """
 
+
 def modify_template_op(link, name):
-    return TEMPLATE_OP.\
-        replace("%LINK%", link).\
+    return TEMPLATE_OP. \
+        replace("%LINK%", link). \
         replace("%NAME%", name)
+
+
 invite_not_private_failure_org = """
 Non hai bisogno di invitare qualcuno poiché la tua societa non è privata.
 
@@ -694,10 +805,12 @@ Hai invitato /u/%NAME% nella societa.
 Possono accettare questa richiesta usando il comando `!entrainsocieta %FIRM%`.
 """
 
+
 def modify_invite(invitee, firm):
-    return invite_org.\
-        replace("%NAME%", invitee.name).\
+    return invite_org. \
+        replace("%NAME%", invitee.name). \
         replace("%FIRM%", firm.name)
+
 
 setprivate_org = """
 La societa è ora privata. I nuovi investitori potranno accedere solo se tu o uno degli Executives invia loro un invito col comando `!invita <user>`.
@@ -717,11 +830,13 @@ La societa non ha abbastanza fondi per aumentare il proprio livello.
 **Costo per passare al livello %LEVEL%:** %COST%
 """
 
+
 def modify_upgrade_insufficient_funds_org(firm, cost):
-    return upgrade_insufficient_funds_org.\
-        replace("%BALANCE%", str(firm.balance)).\
-        replace("%LEVEL%", str(firm.rank + 2)).\
+    return upgrade_insufficient_funds_org. \
+        replace("%BALANCE%", str(firm.balance)). \
+        replace("%LEVEL%", str(firm.rank + 2)). \
         replace("%COST%", str(cost))
+
 
 upgrade_org = """
 Hai migliorato con successo il livello della societa:  **Livello %LEVEL%**!
@@ -729,19 +844,24 @@ Hai migliorato con successo il livello della societa:  **Livello %LEVEL%**!
 La societa adesso supporta un massimo di **%MAX_MEMBERS% impiegati**, incluso un massimo di **%MAX_EXECS% executives**.
 """
 
+
 def modify_upgrade(firm, max_members, max_execs, max_assocs):
-    return upgrade_org.\
-        replace("%LEVEL%", str(firm.rank + 1)).\
-        replace("%MAX_MEMBERS%", str(max_members)).\
-        replace("%MAX_EXECS%", str(max_execs)).\
+    return upgrade_org. \
+        replace("%LEVEL%", str(firm.rank + 1)). \
+        replace("%MAX_MEMBERS%", str(max_members)). \
+        replace("%MAX_EXECS%", str(max_execs)). \
         replace("%MAX_ASSOCS%", str(max_assocs))
+
+
 DEPLOY_VERSION = """
 La versione corrente del bot è stata installata il `%DATE%`
 """
 
+
 def modify_deploy_version(date):
-    return DEPLOY_VERSION.\
+    return DEPLOY_VERSION. \
         replace("%DATE%", date)
+
 
 TAX_TOO_HIGH = """
 La tassa è troppo alta. Dovrebbe essere tra il 5% e il 75%.
