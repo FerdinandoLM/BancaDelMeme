@@ -383,13 +383,13 @@ Se non puoi permettertelo, il tuo post verrà cancellato. Nulla di personale, ba
 
 Fatti risentire quando avrai più soldi, rimanda il meme con un nuovo post.
 
-Il tuo saldo attuale è **%Mem€% Mem€**.
+Il tuo saldo attuale è **%MEMECOINS% Mem€**.
 """
 
 
 def modify_pay_to_post(balance):
     return PAY_TO_POST_ORG.\
-        replace("%Mem€%", str(balance))
+        replace("%MEMECOINS%", format(int(balance), ",d"))
 
 
 MAINTENANCE_ORG = """
@@ -411,42 +411,14 @@ Societa: **%FIRM_NAME%**
 
 BILANCIO societa: **%BALANCE%** Mem€
 
-LIVELLO societa: **%LEVEL%**
-
-----
-
-## MEMBRI:
-
-*CEO:*
-%CEO%
-
-*COO:*
-%COO%
-
-*CFO:*
-%CFO%
-
-*Dirigenti:*
-%EXECS%
-
-*Associati:*
-%ASSOCS%
-
-*Trader semplici:*
-%TRADERS%
+Livello societa: **%LEVEL%**
 """
 
 
-def modify_firm_other(firm, ceo, coo, cfo, execs, assocs, traders):
+def modify_firm_other(firm):
     return firm_other_org. \
         replace("%FIRM_NAME%", firm.name). \
         replace("%FIRM_ID%", str(firm.id)). \
-        replace("%CEO%", ceo). \
-        replace("%COO%", coo). \
-        replace("%CFO%", cfo). \
-        replace("%EXECS%", execs). \
-        replace("%ASSOCS%", assocs). \
-        replace("%TRADERS%", traders). \
         replace("%BALANCE%", "{:,}".format(firm.balance)). \
         replace("%LEVEL%", str(firm.rank + 1))
 
@@ -460,46 +432,16 @@ LIVELLO societa: **%LEVEL%**
 
 Il tuo Rank: **%RANK%**
 
-----
-
-## MEMBRI:
-
-*CEO:*
-%CEO%
-
-*COO:*
-%COO%
-
-*CFO:*
-%CFO%
-
-*Dirigenti:*
-%EXECS%
-
-*Associati:*
-%ASSOCS%
-
-*Trader semplici:*
-%TRADERS%
-
-----
-
 Puoi lasciare questa societa con il comando **!escidallasocieta**.
 """
 
 
-def modify_firm_self(rank, firm, ceo, coo, cfo, execs, assocs, traders):
+def modify_firm_self(rank, firm):
     rank_str = rank_strs[rank]
     return firm_self_org. \
         replace("%RANK%", rank_str). \
         replace("%FIRM_NAME%", firm.name). \
         replace("%FIRM_ID%", str(firm.id)). \
-        replace("%CEO%", ceo). \
-        replace("%COO%", coo). \
-        replace("%CFO%", cfo). \
-        replace("%EXECS%", execs). \
-        replace("%ASSOCS%", assocs). \
-        replace("%TRADERS%", traders). \
         replace("%BALANCE%", "{:,}".format(firm.balance)). \
         replace("%LEVEL%", str(firm.rank + 1))
 
@@ -753,8 +695,8 @@ FIRM_TAX_ORG = """
 
 
 def modify_firm_tax(tax_amount, firm_name):
-    return FIRM_TAX_ORG. \
-        replace("%AMOUNT%", str(tax_amount)). \
+    return FIRM_TAX_ORG.\
+        replace("%AMOUNT%", format(int(tax_amount), ",d")). \
         replace("%NAME%", firm_name)
 
 
@@ -833,9 +775,9 @@ La societa non ha abbastanza fondi per aumentare il proprio livello.
 
 def modify_upgrade_insufficient_funds_org(firm, cost):
     return upgrade_insufficient_funds_org. \
-        replace("%BALANCE%", str(firm.balance)). \
+        replace("%BALANCE%", format(int(firm.balance), ",d")). \
         replace("%LEVEL%", str(firm.rank + 2)). \
-        replace("%COST%", str(cost))
+        replace("%COST%", format(int(cost), ",d"))
 
 
 upgrade_org = """

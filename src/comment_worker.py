@@ -450,37 +450,6 @@ class CommentWorker():
             if firm is None:
                 return comment.reply_wrap(message.firm_notfound_org)
 
-        ceo = "/u/" + sess.query(Investor).\
-            filter(Investor.firm == firm.id).\
-            filter(Investor.firm_role == "ceo").\
-            first().\
-            name
-        coo = concat_names(
-            sess.query(Investor).\
-                filter(Investor.firm == firm.id).\
-                filter(Investor.firm_role == "coo").\
-                all())
-        cfo = concat_names(
-            sess.query(Investor).\
-                filter(Investor.firm == firm.id).\
-                filter(Investor.firm_role == "cfo").\
-                all())
-        execs = concat_names(
-            sess.query(Investor).\
-                filter(Investor.firm == firm.id).\
-                filter(Investor.firm_role == "exec").\
-                all())
-        assocs = concat_names(
-            sess.query(Investor).\
-                filter(Investor.firm == firm.id).\
-                filter(Investor.firm_role == "assoc").\
-                all())
-        traders = concat_names(
-            sess.query(Investor).\
-                filter(Investor.firm == firm.id).\
-                filter(Investor.firm_role == "").\
-                all())
-
         # Sometimes flairs can get broken, !firm should reinitiate
         # the flair on the user
         # Updating the flair in subreddits
@@ -517,23 +486,12 @@ class CommentWorker():
             return comment.reply_wrap(
                 message.modify_firm_self(
                     investor.firm_role,
-                    firm,
-                    ceo,
-                    coo,
-                    cfo,
-                    execs,
-                    assocs,
-                    traders))
-        else:
-            return comment.reply_wrap(
-                message.modify_firm_other(
-                    firm,
-                    ceo,
-                    coo,
-                    cfo,
-                    execs,
-                    assocs,
-                    traders))
+                    firm))
+
+        # Otherwise
+        return comment.reply_wrap(
+            message.modify_firm_other(
+                firm))
 
     @req_user
     def creasocieta(self, sess, comment, investor, firm_name):
@@ -742,7 +700,7 @@ class CommentWorker():
         # If user is already at the lowest rank, they cannot be demoted
         if user_role == "":
             return comment.reply_wrap(message.demote_failure_trader_org)
-        
+
         if user_role == "assoc":
             if (investor.firm_role == "") or (investor.firm_role == "assoc"):
                 return comment.reply_wrap(message.not_ceo_or_exec_org)
