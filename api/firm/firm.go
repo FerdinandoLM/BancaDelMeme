@@ -1,15 +1,16 @@
 package firm
 
 import (
-	"../utils"
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"regexp"
+
+	"../utils"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/mux"
 )
 
 type firm struct {
@@ -18,6 +19,9 @@ type firm struct {
 	Balance    int64  `json:"balance"`
 	Size       int    `json:"size"`
 	Execs      int    `json:"execs"`
+	Assocs     int    `json:"assocs"`
+	Coo        int    `json:"coo"`
+	Cfo        int    `json:"cfo"`
 	Tax        int    `json:"tax"`
 	Rank       int    `json:"rank"`
 	Private    bool   `json:"private"`
@@ -58,9 +62,10 @@ func Firm() func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
+		defer conn.Close()
 		query := fmt.Sprintf(`
-SELECT id, name, balance, size, execs,
-tax, rank, private, last_payout
+SELECT id, name, balance, size, execs, assocs, 
+coo, cfo, tax, rank, private, last_payout
 FROM Firms
 WHERE id = %s
 ORDER BY balance DESC 
@@ -80,6 +85,9 @@ LIMIT 1;`, firm_id)
 				&temp.Balance,
 				&temp.Size,
 				&temp.Execs,
+				&temp.Assocs,
+				&temp.Coo,
+				&temp.Cfo,
 				&temp.Tax,
 				&temp.Rank,
 				&temp.Private,
@@ -118,6 +126,7 @@ func FirmMembers() func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
+		defer conn.Close()
 		query := fmt.Sprintf(`
 SELECT * FROM Investors WHERE firm = '%s'
 LIMIT %d OFFSET %d`, firm_id, per_page, per_page*page)
@@ -177,6 +186,7 @@ func FirmMembersTop() func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
+		defer conn.Close()
 		query := fmt.Sprintf(`
 SELECT Investors.id, Investors.name,  Investors.balance, 
 Investors.completed, Investors.broke, Investors.badges, 

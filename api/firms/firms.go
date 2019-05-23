@@ -1,13 +1,14 @@
 package firms
 
 import (
-	"../utils"
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"net/http"
+
+	"../utils"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type firm struct {
@@ -32,6 +33,7 @@ func FirmsTop() func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
+		defer conn.Close()
 		query := fmt.Sprintf(`
 SELECT id, name, balance, size, execs,
 tax, rank, private, last_payout

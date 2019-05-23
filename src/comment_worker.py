@@ -105,6 +105,7 @@ class CommentWorker():
     websites = [
         "imgur.com",
         "i.imgur.com",
+        "m.imgur.com",
         "reddit.com",
         "i.reddit.com",
         "v.reddit.com",

@@ -1,15 +1,16 @@
 package investments
 
 import (
-	"../utils"
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"regexp"
+
+	"../utils"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/mux"
 )
 
 type investment struct {
@@ -33,6 +34,7 @@ func Investments() func(w http.ResponseWriter, r *http.Request) {
 		from, to := utils.GetTimeframes(r.RequestURI)
 		page, per_page := utils.GetPagination(r.RequestURI)
 		conn, err := sql.Open("mysql", utils.GetDB())
+		defer conn.Close()
 		if err != nil {
 			log.Print(err)
 			w.WriteHeader(http.StatusBadRequest)

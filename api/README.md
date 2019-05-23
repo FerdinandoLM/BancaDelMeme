@@ -167,7 +167,8 @@ All investments invested in the specified post. The post string is sanitized wit
   ],
   "firm": 0,
   "firm_role": "",
-  "networth": 11000
+  "networth": 11000,
+  "rank": 1
  }
  ```
 
@@ -356,6 +357,9 @@ $ curl 'https://meme.market/api/firm/10'
  "balance": 387820,
  "size": 10,
  "execs": 3,
+ "assocs": 0,
+ "coo": 1,
+ "cfo": 1,
  "tax": 10,
  "rank": 1,
  "private": false,
