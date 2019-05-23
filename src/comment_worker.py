@@ -992,10 +992,10 @@ class CommentWorker():
                     replace('%TIME%', datetime.datetime.fromtimestamp(investment.time).isoformat(' ')).\
                     replace('%POST%', investment.post).\
                     replace('%COMM%', investment.comment).\
-                    replace('%AMOUNT%', '{:d}'.format(investment.amount)).\
+                    replace('%AMOUNT%', '{:d}'.format(investment.amount, ",d")).\
                     replace('%SSTART%', '{:d}'.format(investment.upvotes)).\
                     replace('%SEND%', '{:d}'.format(investment.final_upvotes)).\
-                    replace('%RESULT%', '{:d}'.format(investment.profit))
+                    replace('%RESULT%', '{:d}'.format(investment.profit, ",d"))
         page = 'u_' + investor.name
         comment.subreddit.wiki.create(page, 'Updating', 'Init')
         comment.subreddit.wiki[page].edit(text, 'Update')
