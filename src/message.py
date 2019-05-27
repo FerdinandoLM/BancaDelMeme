@@ -247,7 +247,7 @@ def modify_active(active_investments):
         else:
             remaining_string = "in elaborazione"
         post_url = f"https://www.reddit.com/r/BancaDelMeme/comments/{inv.post}/_/{inv.comment}"
-        inv_string = f"[#{i}]({post_url}): {inv.amount} Mem€ @ {inv.upvotes} %UPVOTES_WORD% ({remaining_string})"\
+        inv_string = f"[#{i}]({post_url}): {inv.amount:,d} Mem€ @ {inv.upvotes} %UPVOTES_WORD% ({remaining_string})"\
             .replace("%UPVOTES_WORD%", utils.upvote_string())
         investments_strings.append(inv_string)
         i += 1
