@@ -1,7 +1,11 @@
 # Interactive command line tool for performing test calculations for investment return
 import argparse
-import matplotlib.pyplot as plt
 from formula import calculate
+try:
+    import matplotlib.pyplot as plt
+except ImportError:
+    from unittest.mock import MagicMock
+    plt = MagicMock()
 
 def main():
     # == Parse initial and final upvotes from command line
