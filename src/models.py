@@ -61,6 +61,11 @@ class Investor(Base):
     firm = Column(Integer, default=0)
     firm_role = Column(String(32), default="")
 
+    def networth(self, sess):
+        """Return the balance plus all invested amounts (if any)"""
+        return self.balance + (sess.query(func.sum(Investment.amount)).filter(
+            Investment.name == self.name).filter(Investment.done == 0).first()[0] or 0)
+
 
 class Firm(Base):
     __tablename__ = "Firms"
