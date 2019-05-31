@@ -1,9 +1,7 @@
 """
 sqlalchemy is the way we connect to our MySQL database
 """
-import os
-
-from sqlalchemy import BigInteger, Boolean, Column, DateTime, Integer, String, func
+from sqlalchemy import BigInteger, Boolean, Column, Integer, String, func
 from sqlalchemy.ext.declarative import declarative_base
 
 from sqlalchemy.sql import expression
