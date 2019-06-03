@@ -89,7 +89,7 @@ def main():
         duration = stopwatch.measure()
 
         investor = sess.query(Investor).filter(Investor.name == investment.name).one()
-        net_worth = investor.networth()
+        net_worth = investor.networth(sess)
 
         logging.info("New mature investment: %s", investment.comment)
         logging.info(" -- by %s", investor.name)
