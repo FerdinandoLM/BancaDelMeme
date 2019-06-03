@@ -236,7 +236,7 @@ def leaderboard():
 
     wiki_text = "# Stagione 1\n\nClassifica definitiva della stagione 1\n\n" + top_users_text
 
-    wikipage = reddit.subreddit('test_vari').wiki.create('stagione001', wiki_text)
+    wikipage = reddit.subreddit('bancadelmeme').wiki.create('stagione001', wiki_text)
     logging.info(" -- processed in %.2fs", duration)
 
     # Report the Reddit API call stats
