@@ -16,6 +16,7 @@ logging.basicConfig(level=logging.INFO)
 
 DEPLOY_DATE = time.strftime("%c")
 
+
 def investment_duration_string(duration):
     """
     We may change the investment duration in the future
@@ -51,15 +52,17 @@ def investment_duration_string(duration):
         inv_string += " "
 
     return inv_string
-	
+
+
 def upvote_string():
     """
     We can make some funny replacements of upvotes
     depending on what month it is
     """
     return {
-        10:"upvotes",
+        10: "upvotes",
     }.get(datetime.date.today().month, "upvotes")
+
 
 def test_reddit_connection(reddit):
     """
@@ -88,6 +91,7 @@ def test_reddit_connection(reddit):
         return False
     return True
 
+
 def keep_up(function):
     while True:
         try:
@@ -95,3 +99,20 @@ def keep_up(function):
         except Exception:
             logging.exception("Exception, sleeping for 30 secs")
             time.sleep(30)
+
+
+def formatNumber(n):
+    """Format Mem€ in a short format"""
+    suffixes = {
+        6: 'M',
+        9: 'B',
+        12: 'T',
+        15: 'Q'
+    }
+    digits = len(str(n))
+    if digits <= 6:
+        return '{:,}'.format(n)
+    exponent = (digits - 1) - ((digits - 1) % 3)
+    mantissa = n / (10 ** exponent)
+    suffix = suffixes.get(exponent)
+    return '{:.2f}{}'.format(mantissa, suffix)

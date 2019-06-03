@@ -1,15 +1,15 @@
 # TODO: add docstrin here
-import time
-import datetime
 import logging
+import time
 
-from sqlalchemy import create_engine, func, desc, and_
-from sqlalchemy.orm import sessionmaker
 import praw
+from sqlalchemy import and_, create_engine, desc, func
+from sqlalchemy.orm import sessionmaker
 
 import config
 import utils
-from models import Investor, Investment
+from models import Investment, Investor
+from utils import formatNumber
 
 logging.basicConfig(level=logging.INFO)
 localtime = time.strftime('{%Y-%m-%d %H:%M:%S}')
@@ -71,6 +71,7 @@ Potete prendere spunto dal dizionario del Sole24Ore [Investopedia Financial Dict
 ***
 ***
 """
+
 
 # TODO: add docstring
 def main():
@@ -134,20 +135,6 @@ def main():
 
     sess.close()
 
-def formatNumber(n):
-    suffixes = {
-        6: 'M',
-        9: 'B',
-        12: 'T',
-        15: 'Q'
-    }
-    digits = len(str(n))
-    if digits <= 6:
-        return '{:,}'.format(n)
-    exponent = (digits - 1) - ((digits - 1) % 3)
-    mantissa = n / (10 ** exponent)
-    suffix = suffixes.get(exponent)
-    return '{:.2f}{}'.format(mantissa, suffix)
 
 if __name__ == "__main__":
     main()
