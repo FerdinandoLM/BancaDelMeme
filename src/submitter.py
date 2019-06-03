@@ -26,7 +26,7 @@ import config
 import message
 import utils
 from kill_handler import KillHandler
-from models import Investor
+from models import Investor, Buyable
 from comment_worker import reply_wrap
 from stopwatch import Stopwatch
 
@@ -136,6 +136,10 @@ def main():
         # Measure how long processing took
         duration = stopwatch.measure()
         logging.info(" -- processed in %.2fs", duration)
+
+        # Create Buyable
+        sess.add(Buyable(id=submission.id, name=submission.author.name))
+        sess.commit()
 
         if killhandler.killed:
             logging.info("Termination signal received - exiting")

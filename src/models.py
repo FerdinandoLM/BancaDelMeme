@@ -90,3 +90,12 @@ class Invite(Base):
     id = Column(Integer, primary_key=True)
     firm = Column(Integer)
     investor = Column(Integer)
+
+class Buyable(Base):
+    __tablename__ = "Buyables"
+
+    id = Column(Integer, primary_key=True)
+    time = Column(Integer, server_default=unix_timestamp())
+    done = Column(Boolean, default=False, nullable=False)
+    name = Column(String(20), nullable=False, index=True)
+    final_upvotes = Column(Integer)
