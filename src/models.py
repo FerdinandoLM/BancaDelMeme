@@ -95,7 +95,11 @@ class Buyable(Base):
     __tablename__ = "Buyables"
 
     id = Column(Integer, primary_key=True)
+    post = Column(String(11), nullable=False)
     time = Column(Integer, server_default=unix_timestamp())
+    response = Column(String(20))
+    oc = Column(Integer, default=False, nullable=False)
     done = Column(Boolean, default=False, nullable=False)
     name = Column(String(20), nullable=False, index=True)
     final_upvotes = Column(Integer)
+    profit = Column(BigInteger, default=0)

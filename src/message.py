@@ -860,3 +860,17 @@ def modify_sell_investment(num_investments):
     if num_investments > 1:
         endings = {'il': '', 'agg': 'i', 'verb': 'sono', 'tuo': 'i', 'verr': 'anno'}
     return SELL_INVESTMENTS.format(**endings)
+
+def modify_oc_return(profit):
+    return """\n\nGrazie del tuo OC,
+l'1% degli investimenti non tuoi sono stati aggiunti al tuo patrimonio.
+
+Hai guadagnato cosi {:,d} Mem€""".format(profit)
+
+def modify_oc_capped():
+    return """\n\nGrazie del tuo OC,
+l'1% degli investimenti non tuoi sono stati aggiunti al tuo patrimonio.
+
+Hai cosi raggiunto il saldo massimo! Hai trionfato in questa sanguinosa competizione nel marketplace, e il tuo portafoglio è gonfissimo! Le future generazioni ti ricorderanno come titano degli investimenti.
+
+*"Alessandro pianse, poiché non c'erano altri mondi da conquistare.."""

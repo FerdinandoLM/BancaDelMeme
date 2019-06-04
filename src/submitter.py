@@ -138,7 +138,7 @@ def main():
         logging.info(" -- processed in %.2fs", duration)
 
         # Create Buyable
-        sess.add(Buyable(id=submission.id, name=submission.author.name))
+        sess.add(Buyable(post=submission.id, name=submission.author.name, response=bot_reply.id))
         sess.commit()
 
         if killhandler.killed:
