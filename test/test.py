@@ -7,6 +7,7 @@ import unittest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+import config
 from comment_worker import CommentWorker
 from models import Base, Investor, Firm, Investment
 from mock_praw import Comment, Submission
@@ -14,7 +15,7 @@ from mock_praw import Comment, Submission
 class Test(unittest.TestCase):
     def setUp(self):
         # create sqlite db
-        engine = create_engine('sqlite:///.testenv/test.db')
+        engine = create_engine(config.DB)
         self.Session = session_maker = scoped_session(sessionmaker(bind=engine))
         Base.metadata.create_all(engine)
         sess = self.Session()

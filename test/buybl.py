@@ -16,7 +16,7 @@ from mock_praw import Comment, Submission, Reddit
 class BuyableTest(unittest.TestCase):
     def setUp(self):
         # create sqlite db
-        engine = create_engine('sqlite:///.testenv/test.db')
+        engine = create_engine(config.DB)
         sess_maker = scoped_session(sessionmaker(bind=engine))
         self.session = sess_maker()
         self.session.query(Buyable).delete()

@@ -29,7 +29,7 @@ def sleep_func():
 class CalculatorTest(unittest.TestCase):
     def setUp(self):
         # create sqlite db
-        engine = create_engine('sqlite:///.testenv/test.db')
+        engine = create_engine(config.DB)
         self.Session = scoped_session(sessionmaker(bind=engine))
         sess = self.Session()
         sess.query(Investment).delete()

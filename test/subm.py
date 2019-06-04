@@ -6,6 +6,7 @@ import unittest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+import config
 import submitter
 import message
 from models import Investor, Investment
@@ -28,7 +29,7 @@ def sleep_func():
 class SubmitterTest(unittest.TestCase):
     def setUp(self):
         # create sqlite db
-        engine = create_engine('sqlite:///.testenv/test.db')
+        engine = create_engine(config.DB)
         self.Session = scoped_session(sessionmaker(bind=engine))
         sess = self.Session()
         sess.query(Investment).delete()
