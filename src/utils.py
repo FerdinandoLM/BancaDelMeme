@@ -12,9 +12,12 @@ import time
 
 import prawcore
 
+import config
+
 logging.basicConfig(level=logging.INFO)
 
 DEPLOY_DATE = time.strftime("%c")
+BALANCE_CAP = 1000 * 1000 * 1000 * 1000 * 1000 * 1000  # One quintillion MemeCoins
 
 
 def investment_duration_string(duration):
@@ -93,6 +96,7 @@ def test_reddit_connection(reddit):
 
 
 def keep_up(function):
+    """Log exceptions and execute the function again."""
     while True:
         try:
             return function()
@@ -103,16 +107,40 @@ def keep_up(function):
 
 def formatNumber(n):
     """Format Mem€ in a short format"""
-    suffixes = {
-        6: 'M',
-        9: 'B',
-        12: 'T',
-        15: 'Q'
-    }
+    suffixes = {6: 'M', 9: 'B', 12: 'T', 15: 'Q'}
     digits = len(str(n))
     if digits <= 6:
         return '{:,}'.format(n)
     exponent = (digits - 1) - ((digits - 1) % 3)
-    mantissa = n / (10 ** exponent)
+    mantissa = n / (10**exponent)
     suffix = suffixes.get(exponent)
     return '{:.2f}{}'.format(mantissa, suffix)
+
+
+class EmptyResponse():
+    """Mock up of reddit message"""
+
+    def __init__(self):
+        self.body = "[fake response body]"
+
+    def edit_wrap(self, body):
+        """Log to console"""
+        logging.info(" -- editing fake response")
+        logging.info(body)
+
+
+def edit_wrap(self, body):
+    """Utility method to check configuration before posting to Reddit"""
+    logging.info(" -- editing response")
+
+    if config.POST_TO_REDDIT:
+        try:
+            return self.edit(body)
+        # TODO: get rid of this broad except
+        except Exception as e:
+            logging.error(e)
+            traceback.print_exc()
+            return False
+    else:
+        logging.info(body)
+        return False

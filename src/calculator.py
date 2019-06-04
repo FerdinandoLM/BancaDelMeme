@@ -1,47 +1,21 @@
 # TODO: add docstrin here
-import time
 import logging
-import traceback
+import time
 
+import praw
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import praw
 
 import config
-import utils
 import formula
 import message
+import utils
 from kill_handler import KillHandler
-from models import Investment, Investor, Firm
+from models import Firm, Investment, Investor
 from stopwatch import Stopwatch
+from utils import BALANCE_CAP, EmptyResponse, edit_wrap
 
 logging.basicConfig(level=logging.INFO)
-
-BALANCE_CAP = 1000*1000*1000*1000*1000*1000 # One quintillion MemeCoins
-
-# TODO: add classes docstring
-class EmptyResponse():
-    def __init__(self):
-        self.body = "[fake response body]"
-
-    def edit_wrap(self, body):
-        logging.info(" -- editing fake response")
-        logging.info(body)
-
-def edit_wrap(self, body):
-    logging.info(" -- editing response")
-
-    if config.POST_TO_REDDIT:
-        try:
-            return self.edit(body)
-        # TODO: get rid of this broad except
-        except Exception as e:
-            logging.error(e)
-            traceback.print_exc()
-            return False
-    else:
-        logging.info(body)
-        return False
 
 # TODO: rethink how to structure this main
 # TODO: add docstring
