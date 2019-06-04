@@ -18,6 +18,9 @@ class Submission():
         self.replies = []
         self.stickied = False
         self.created_utc = int(time.time())
+        self.link_flair_text = ''
+        self.deleted = False
+        self.removed = False
 
     def __str__(self):
         return self.id
@@ -72,6 +75,9 @@ class Reddit():
 
     def submission(self, id):
         return self.submissions.get(id, None)
+
+    def comment(self, id):
+        return Comment(id, 'commenter', '', 'sub_comment')
 
     def add_submission(self, submission):
         self.submissions[submission.id] = submission
