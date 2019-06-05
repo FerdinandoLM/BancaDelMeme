@@ -57,7 +57,7 @@ def main():
         submission = reddit.submission(id=buyable.post)
         buyable.final_upvotes = submission.ups
         buyable.oc = (submission.link_flair_text == 'OC')
-        if submission.deleted or submission.removed:
+        if submission.removed or not submission.author:
             logging.info(" -- deleted or removed")
             buyable.done = True
             sess.commit()

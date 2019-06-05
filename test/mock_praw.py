@@ -19,7 +19,6 @@ class Submission():
         self.stickied = False
         self.created_utc = int(time.time())
         self.link_flair_text = ''
-        self.deleted = False
         self.removed = False
 
     def __str__(self):
