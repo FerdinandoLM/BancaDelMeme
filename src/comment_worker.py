@@ -1,20 +1,20 @@
 import datetime
 import json
 import logging
+import math
+import os
 import re
 import time
 import traceback
-import os
-
-from sqlalchemy import func, desc, and_
 
 import praw
+from sqlalchemy import and_, desc, func
 
 import config
-import message
-from models import Investment, Investor, Firm, Invite
-import utils
 import help_info
+import message
+import utils
+from models import Firm, Investment, Investor, Invite
 
 REDDIT = None
 
@@ -307,6 +307,10 @@ class CommentWorker():
         upvotes_now = int(comment.submission.ups)
         if upvotes_now < 1:
             upvotes_now = 1
+        # apply 15 minute grace period
+        if comment.created_utc - comment.submission.created_utc < 60 * 15:
+            upvotes_now = min(upvotes_now, int(math.pow(3, upvotes_now / 5) - 1))
+
 
         # Sending a confirmation
         response = comment.reply_wrap(message.modify_invest(
