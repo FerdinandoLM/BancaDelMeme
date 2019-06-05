@@ -2,6 +2,7 @@ import math
 
 from fastnumbers import fast_float
 
+
 def calculate(new, old, net_worth=0):
     new = fast_float(new)
     old = fast_float(old)
@@ -44,30 +45,38 @@ def calculate(new, old, net_worth=0):
 
     return factor
 
+
 def sigmoid(x, maxvalue, midpoint, steepness):
     arg = -(steepness * (x - midpoint))
-    y = fast_float(maxvalue) / ( 1 + math.exp(arg) )
+    y = fast_float(maxvalue) / (1 + math.exp(arg))
     return y
+
 
 MAX_A = 1.2
 MAX_B = 1.7
 MAX_C = 7
 
+
 def sigmoid_max(old):
     return MAX_A + MAX_B / ((old / MAX_C) + 1)
+
 
 MID_A = 20
 MID_B = 500
 MID_M = 25000
 
+
 def sigmoid_midpoint(old):
     return linear_interpolate(old, 0, MID_M, MID_A, MID_B)
+
 
 STEEP_A = 0.05
 STEEP_C = 100
 
+
 def sigmoid_steepness(old):
     return STEEP_A / ((old / STEEP_C) + 1)
+
 
 def linear_interpolate(x, x_0, x_1, y_0, y_1):
     m = (y_1 - y_0) / fast_float(x_1 - x_0)
@@ -75,5 +84,6 @@ def linear_interpolate(x, x_0, x_1, y_0, y_1):
     y = (m * x) + c
     return y
 
+
 def net_worth_coefficient(net_worth):
-    return net_worth ** -0.155 * 6
+    return net_worth**-0.155 * 6

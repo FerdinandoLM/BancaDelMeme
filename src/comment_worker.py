@@ -25,12 +25,14 @@ if not config.TEST:
                          password=config.PASSWORD,
                          user_agent=config.USER_AGENT)
 
+
 # Decorator to mark a commands that require a user
 # Adds the investor after the comment when it calls the method (see broke)
 def req_user(wrapped_function):
     """
     This is a wrapper function that ensures user exists
     """
+
     def wrapper(self, sess, comment, *args):
         investor = sess.query(Investor).\
             filter(Investor.name == comment.author.name).\
@@ -44,6 +46,7 @@ def req_user(wrapped_function):
                 first()
 
         return wrapped_function(self, sess, comment, investor, *args)
+
     return wrapper
 
 
@@ -65,6 +68,7 @@ def reply_wrap(self, body):
         logging.info(body)
         return "0"
 
+
 def edit_wrap(self, body):
     logging.info(" -- editing response")
 
@@ -80,8 +84,10 @@ def edit_wrap(self, body):
         logging.info(body)
         return False
 
+
 praw.models.Comment.reply_wrap = reply_wrap
 praw.models.Comment.edit_wrap = edit_wrap
+
 
 class CommentWorker():
     """
@@ -103,16 +109,8 @@ class CommentWorker():
 
     # Allowed websites for !template command
     websites = [
-        "imgur.com",
-        "i.imgur.com",
-        "m.imgur.com",
-        "reddit.com",
-        "i.reddit.com",
-        "v.reddit.com",
-        "i.redd.it",
-        "v.redd.it",
-        "i.imgflip.com",
-        "i.kym-cdn.com"
+        "imgur.com", "i.imgur.com", "m.imgur.com", "reddit.com", "i.reddit.com", "v.reddit.com",
+        "i.redd.it", "v.redd.it", "i.imgflip.com", "i.kym-cdn.com"
     ]
     template_sources = [f"https://{re.escape(website)}\S+" for website in websites]
     """ 
@@ -154,8 +152,7 @@ class CommentWorker():
     firm_name_format = r"[^\w \-]"
 
     def __init__(self, sm):
-        self.regexes = [re.compile(x, re.MULTILINE | re.IGNORECASE)
-                        for x in self.commands]
+        self.regexes = [re.compile(x, re.MULTILINE | re.IGNORECASE) for x in self.commands]
         self.firm_name_regex = re.compile(self.firm_name_format)
         self.Session = sm
 
@@ -174,7 +171,7 @@ class CommentWorker():
             return
 
         # Ignore comments older than a threshold
-        max_age = 60*15 # fifteen minutes
+        max_age = 60 * 15  # fifteen minutes
         comment_age = time.time() - int(comment.created_utc)
         if comment_age > max_age:
             return
@@ -221,21 +218,19 @@ class CommentWorker():
             return comment.reply_wrap(message.HELP_ORG)
 
         help_msg = f"COMMAND `!{command_name}`"
-        help_msg += help_info.help_dict.get(command_name, "Comando non trovato, assicurati di averlo scritto correttamente.")
+        help_msg += help_info.help_dict.get(
+            command_name, "Comando non trovato, assicurati di averlo scritto correttamente.")
         return comment.reply_wrap(help_msg)
 
     def mercato(self, sess, comment):
         """
         Return the meme market's current state
         """
-        total = sess.query(
-            func.coalesce(func.sum(Investor.balance), 0)
-        ).scalar()
+        total = sess.query(func.coalesce(func.sum(Investor.balance), 0)).scalar()
 
-        invested, active = sess.query(
-            func.coalesce(func.sum(Investment.amount), 0),
-            func.count(Investment.id)
-        ).filter(Investment.done == 0).first()
+        invested, active = sess.query(func.coalesce(func.sum(Investment.amount), 0),
+                                      func.count(
+                                          Investment.id)).filter(Investment.done == 0).first()
 
         return comment.reply_wrap(message.modify_market(active, total, invested))
 
@@ -311,23 +306,19 @@ class CommentWorker():
         if comment.created_utc - comment.submission.created_utc < 60 * 15:
             upvotes_now = min(upvotes_now, int(math.pow(3, upvotes_now / 5) - 1))
 
-
         # Sending a confirmation
-        response = comment.reply_wrap(message.modify_invest(
-            amount,
-            upvotes_now,
-            new_balance
-        ))
+        response = comment.reply_wrap(message.modify_invest(amount, upvotes_now, new_balance))
 
-        sess.add(Investment(
-            post=comment.submission.id,
-            upvotes=upvotes_now,
-            comment=comment.id,
-            name=author,
-            amount=amount,
-            response=response.id,
-            done=False,
-        ))
+        sess.add(
+            Investment(
+                post=comment.submission.id,
+                upvotes=upvotes_now,
+                comment=comment.id,
+                name=author,
+                amount=amount,
+                response=response.id,
+                done=False,
+            ))
 
         investor.balance = new_balance
 
@@ -425,8 +416,8 @@ class CommentWorker():
             return comment.reply_wrap(message.TEMPLATE_ALREADY_DONE)
 
         # If OP posted a template, replace the hint
-        edited_response = comment.parent().body.replace(message.TEMPLATE_HINT_ORG.
-                                                        replace("%NAME%", f"u/{comment.author.name}"), '')
+        edited_response = comment.parent().body.replace(
+            message.TEMPLATE_HINT_ORG.replace("%NAME%", f"u/{comment.author.name}"), '')
         edited_response += message.modify_template_op(link, f"u/{comment.author.name}")
 
         comment.parent().edit_wrap(edited_response)
@@ -488,15 +479,10 @@ class CommentWorker():
                 REDDIT.subreddit(subreddit).flair.set(investor.name, "")
 
         if firm_name is None:
-            return comment.reply_wrap(
-                message.modify_firm_self(
-                    investor.firm_role,
-                    firm))
+            return comment.reply_wrap(message.modify_firm_self(investor.firm_role, firm))
 
         # Otherwise
-        return comment.reply_wrap(
-            message.modify_firm_other(
-                firm))
+        return comment.reply_wrap(message.modify_firm_other(firm))
 
     @req_user
     def creasocieta(self, sess, comment, investor, firm_name):
@@ -681,7 +667,8 @@ class CommentWorker():
         if not config.TEST:
             for subreddit in config.SUBREDDITS:
                 REDDIT.subreddit(subreddit).flair.set(user.name, f"{firm.name} | {flair_role_user}")
-                REDDIT.subreddit(subreddit).flair.set(investor.name, f"{firm.name} | {flair_role_investor}")
+                REDDIT.subreddit(subreddit).flair.set(investor.name,
+                                                      f"{firm.name} | {flair_role_investor}")
 
         return comment.reply_wrap(message.modify_promote(user, user_role))
 
@@ -966,9 +953,10 @@ class CommentWorker():
         # level 2 = 16,000,000
         # level 3 = 64,000,000
         # etc.
-        upgrade_cost = 4 ** (firm.rank + 1) * 1000000
+        upgrade_cost = 4**(firm.rank + 1) * 1000000
         if firm.balance < upgrade_cost:
-            return comment.reply_wrap(message.modify_upgrade_insufficient_funds_org(firm, upgrade_cost))
+            return comment.reply_wrap(
+                message.modify_upgrade_insufficient_funds_org(firm, upgrade_cost))
 
         firm.rank += 1
         firm.balance -= upgrade_cost
@@ -1032,28 +1020,30 @@ class CommentWorker():
         self.investi(sess, comment, str(investor.balance), None)
 
 
-
 def concat_names(investors):
     names = ["/u/" + i.name for i in investors]
     return ", ".join(names)
+
 
 def max_members_for_rank(rank):
     # level 1 = 8
     # level 2 = 16
     # level 3 = 32
     # etc.
-    return int(2 ** (rank + 3))
+    return int(2**(rank + 3))
+
 
 def max_assocs_for_rank(rank):
     # level 1 = 2
     # level 2 = 6
     # level 3 = 14
     # etc.
-    return int(((2 ** (rank + 3)) / 2) - 2)
+    return int(((2**(rank + 3)) / 2) - 2)
+
 
 def max_execs_for_rank(rank):
     # level 1 = 2
     # level 2 = 4
     # level 3 = 8
     # etc.
-    return int(2 ** (rank + 1))
+    return int(2**(rank + 1))
