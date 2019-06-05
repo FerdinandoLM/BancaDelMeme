@@ -298,13 +298,13 @@ class CommentWorker():
         if new_balance < 0:
             return comment.reply_wrap(message.modify_insuff(investor.balance))
 
-        # 0 upvotes is too strong, so what we do is make around 1 minumum
         upvotes_now = int(comment.submission.ups)
-        if upvotes_now < 1:
-            upvotes_now = 1
         # apply 15 minute grace period
         if comment.created_utc - comment.submission.created_utc < 60 * 15:
             upvotes_now = min(upvotes_now, int(math.pow(3, upvotes_now / 5) - 1))
+        # 0 upvotes is too strong, so what we do is make around 1 minumum
+        if upvotes_now < 1:
+            upvotes_now = 1
 
         # Sending a confirmation
         response = comment.reply_wrap(message.modify_invest(amount, upvotes_now, new_balance))
