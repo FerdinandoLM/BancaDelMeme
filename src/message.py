@@ -218,12 +218,16 @@ Per avere aiuto su un singolo comando, semplicemente scrivi `!aiuto`
 
 BALANCE_ORG = """
 Attualmente, il tuo saldo è **%BALANCE% Mem€**.
+
+In investimenti hai %ACTIVES% Mem€ impegnati, per un patrimonio totale di %NET_WORTH% Mem€.
 """
 
 
-def modify_balance(balance):
+def modify_balance(balance, net_worth):
     return BALANCE_ORG.\
-        replace("%BALANCE%", format(balance, ",d"))
+        replace("%BALANCE%", format(balance, ",d")).\
+        replace("%ACTIVES%", format(net_worth-balance, ",d")).\
+        replace("%NET_WORTH%", format(net_worth, ",d"))
 
 
 ACTIVE_ORG = """

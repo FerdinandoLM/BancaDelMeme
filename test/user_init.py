@@ -38,5 +38,5 @@ class TestUserInit(Test):
         )
         self.assertEqual(
             replies[1].body,
-            message.modify_balance(config.STARTING_BALANCE)
+            message.modify_balance(config.STARTING_BALANCE, config.STARTING_BALANCE)
         )

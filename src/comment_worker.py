@@ -333,7 +333,7 @@ class CommentWorker():
         """
         Returns user's balance
         """
-        return comment.reply_wrap(message.modify_balance(investor.balance))
+        return comment.reply_wrap(message.modify_balance(investor.balance, investor.networth(sess)))
 
     @req_user
     def bancarotta(self, sess, comment, investor):
