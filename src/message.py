@@ -862,14 +862,14 @@ def modify_sell_investment(num_investments):
     return SELL_INVESTMENTS.format(**endings)
 
 def modify_oc_return(profit):
-    return """\n\nGrazie del tuo OC,
-l'1% degli investimenti non tuoi sono stati aggiunti al tuo patrimonio.
+    return """\n\n---\n\nGrazie del tuo OC!  
+Per premiarti ti è stato accreditato un bonus pari all'1% degli investimenti su questo post (ma non i tuoi).
 
 Hai guadagnato cosi {:,d} Mem€""".format(profit)
 
 def modify_oc_capped():
-    return """\n\nGrazie del tuo OC,
-l'1% degli investimenti non tuoi sono stati aggiunti al tuo patrimonio.
+    return """\n\n---\n\nGrazie del tuo OC!  
+Per premiarti ti è stato accreditato un bonus pari all'1% degli investimenti su questo post (ma non i tuoi).
 
 Hai cosi raggiunto il saldo massimo! Hai trionfato in questa sanguinosa competizione nel marketplace, e il tuo portafoglio è gonfissimo! Le future generazioni ti ricorderanno come titano degli investimenti.
 
