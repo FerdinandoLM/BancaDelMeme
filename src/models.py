@@ -1,7 +1,7 @@
 """
 sqlalchemy is the way we connect to our MySQL database
 """
-from sqlalchemy import BigInteger, Boolean, Column, Integer, String, func
+from sqlalchemy import BigInteger, Boolean, Column, Index, Integer, String, func
 from sqlalchemy.ext.declarative import declarative_base
 
 from sqlalchemy.sql import expression
@@ -39,11 +39,13 @@ class Investment(Base):
     name = Column(String(20), nullable=False, index=True)
     amount = Column(BigInteger, default=100)
     time = Column(Integer, server_default=unix_timestamp())
-    done = Column(Boolean, default=False, nullable=False)
+    done = Column(Boolean, default=False, nullable=False, index=True)
     response = Column(String(11))
     final_upvotes = Column(Integer)
     success = Column(Boolean, default=False)
     profit = Column(BigInteger, default=0)
+
+    __table_args__ = (Index("ix_Investments_name_done", "name", "done"), )
 
 
 class Investor(Base):
@@ -99,7 +101,7 @@ class Buyable(Base):
     time = Column(Integer, server_default=unix_timestamp())
     response = Column(String(20))
     oc = Column(Integer, default=False, nullable=False)
-    done = Column(Boolean, default=False, nullable=False)
+    done = Column(Boolean, default=False, nullable=False, index=True)
     name = Column(String(20), nullable=False, index=True)
     final_upvotes = Column(Integer)
     profit = Column(BigInteger, default=0)
