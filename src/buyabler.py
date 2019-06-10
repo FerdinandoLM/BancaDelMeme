@@ -90,7 +90,7 @@ def main():
         profit = 0
         net_worth = investor.networth(sess)
         for investment in investments:
-            profit = min(int(investment.amount / 100), net_worth)
+            profit += min(int(investment.amount / 100), net_worth)
 
         # Updating the investor's balance
         new_balance = int(balance + profit)
