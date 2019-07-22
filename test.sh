@@ -27,6 +27,7 @@ fi
 export CONFIG=cfg_test.json
 
 # run tests
+python test/prepare.py
 coverage run --branch --source=src -m unittest discover --start=test --pattern=*.py && \
   coverage report && \
   coverage html
