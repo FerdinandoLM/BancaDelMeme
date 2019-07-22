@@ -436,8 +436,6 @@ def modify_firm_other(firm):
 firm_self_org = """
 societa: **%FIRM_NAME%**
 
-BILANCIO societa: **%BALANCE%** Mem€
-
 Livello di tasse: **%TAX%%**
 
 Dimensione: **%MEMBERS% membri**
