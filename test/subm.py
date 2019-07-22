@@ -10,8 +10,8 @@ import config
 import submitter
 import message
 from models import Investor, Investment
-from mock_praw import Reddit
-from unittest.mock import Mock
+import mock_praw
+from unittest.mock import Mock, MagicMock
 
 class DoneException(BaseException):
     pass
@@ -37,7 +37,7 @@ class SubmitterTest(unittest.TestCase):
         sess.commit()
         self.submitter = submitter
         self.submitter.time.sleep = sleep_func()
-        self.reddit = Reddit()
+        self.reddit = mock_praw.Reddit()
         self.submitter.praw.Reddit = Mock(return_value=self.reddit)
         self.submitter.create_engine = Mock(return_value=engine)
 
@@ -57,3 +57,28 @@ class SubmitterTest(unittest.TestCase):
         replies = submission.replies
         self.assertEqual(len(replies), 1)
         self.assertEqual(replies[0].body, message.invest_no_fee('u/' + submission.author.name))
+
+    def test_sticky(self):
+        submission = mock_praw.Submission('stickiedid')
+        submission.stickied = True
+        self.reddit.subreddit = MagicMock(return_value=MagicMock(stream=MagicMock(submissions=MagicMock(return_value=[submission]))))
+        try:
+            self.submitter.main()
+        except DoneException:
+            pass
+        submission = self.reddit.subreddit().stream.submissions()[0]
+        replies = submission.replies
+        self.assertEqual(len(replies), 0)
+
+    def test_old(self):
+        submission = mock_praw.Submission('stickiedid')
+        submission.created_utc = submission.created_utc - 100000
+        self.reddit.subreddit = MagicMock(return_value=MagicMock(stream=MagicMock(submissions=MagicMock(return_value=[submission]))))
+        try:
+            self.submitter.main()
+        except DoneException:
+            pass
+        submission = self.reddit.subreddit().stream.submissions()[0]
+        print('aaaa', submission.stickied)
+        replies = submission.replies
+        self.assertEqual(len(replies), 0)
