@@ -11,19 +11,22 @@ class TestInvest(Test):
     def test_negative(self):
         self.command('!create')
         replies = self.command('!investi -50')
-        self.assertEqual(len(replies), 0)
+        self.assertEqual(len(replies), 1)
+        self.assertEqual(replies[0].body, message.cmd_sconosciuto())
 
     def test_non_number(self):
         self.command('!create')
         replies = self.command('!investi abc')
-        self.assertEqual(len(replies), 0)
+        self.assertEqual(len(replies), 1)
+        self.assertEqual(replies[0].body, message.cmd_sconosciuto())
         replies = self.command('!investi 1.1.231.23.1')
         self.assertEqual(len(replies), 0)
 
     def test_none(self):
         self.command('!create')
         replies = self.command('!investi')
-        self.assertEqual(len(replies), 0)
+        self.assertEqual(len(replies), 1)
+        self.assertEqual(replies[0].body, message.cmd_sconosciuto())
 
     def test_insufficient_funds(self):
         self.command('!create')

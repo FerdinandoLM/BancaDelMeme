@@ -878,3 +878,6 @@ Per premiarti ti è stato accreditato un bonus pari all'1% degli investimenti su
 Hai cosi raggiunto il saldo massimo! Hai trionfato in questa sanguinosa competizione nel marketplace, e il tuo portafoglio è gonfissimo! Le future generazioni ti ricorderanno come titano degli investimenti.
 
 *"Alessandro pianse, poiché non c'erano altri mondi da conquistare.."""
+
+def cmd_sconosciuto():
+    return """Non conosco il comando che mi hai inviato, il tuo messaggio è stato ignorato."""

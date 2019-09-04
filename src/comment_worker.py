@@ -203,6 +203,11 @@ class CommentWorker():
 
             sess.close()
             break
+        else:
+            self._sconosciuto(comment)
+
+    def _sconosciuto(self, comment):
+        return comment.reply_wrap(message.cmd_sconosciuto())
 
     def ignora(self, sess, comment):
         """
