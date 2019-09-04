@@ -6,7 +6,8 @@ import utils
 class TestBasic(Test):
     def test_non_command(self):
         replies = self.command('saldo')
-        self.assertEqual(len(replies), 0)
+        self.assertEqual(len(replies), 1)
+        self.assertEqual(replies[0].body, message.cmd_sconosciuto())
 
     def test_ignore(self):
         replies = self.command('!ignora')
@@ -14,7 +15,8 @@ class TestBasic(Test):
 
     def test_ignorato(self):
         replies = self.command('!nonesiste')
-        self.assertEqual(len(replies), 0)
+        self.assertEqual(len(replies), 1)
+        self.assertEqual(replies[0].body, message.cmd_sconosciuto())
 
     def test_help(self):
         replies = self.command('!aiuto')

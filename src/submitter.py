@@ -97,7 +97,7 @@ def main():
         if not config.SUBMISSION_FEE:
             # Post a comment to let people know where to invest
             bot_reply = submission.reply_wrap(message.invest_no_fee(f"u/{submission.author.name}"))
-        else:
+        else:  # pragma: no cover
             # If a poster doesn't have an account, delete the post
             # if he has, take 1000 MemeCoins and invest them
             investor = sess.query(Investor).\
