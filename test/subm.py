@@ -79,6 +79,5 @@ class SubmitterTest(unittest.TestCase):
         except DoneException:
             pass
         submission = self.reddit.subreddit().stream.submissions()[0]
-        print('aaaa', submission.stickied)
         replies = submission.replies
         self.assertEqual(len(replies), 0)
