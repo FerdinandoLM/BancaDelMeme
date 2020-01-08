@@ -338,29 +338,6 @@ def invest_no_fee(name):
         replace("%NAME%", name)
 
 
-INVEST_PLACE_HERE = """
-**GLI INVESTIMENTI VANNO QUI - SOLO LE RISPOSTE DIRETTE A QUESTO MESSAGGIO VERRANNO ELABORATE**
-
-Per prevenire spam e altri catastrofi naturali, considero solamente risposte a questo messaggio. Altri comandi verranno ignorati e potrebbero addirittura venire penalizzati. Teniamo il nostro MeMercato Azionario bello pulito!
-
-L'autore di questo post ha pagato **%MEMECOIN% Mem€** per postare.
-
----
-
-- Visita [BancaDelMeme](/r/BancaDelMeme) per aiuto, statistiche di MeMercato Azionario, e profili degli investitori. (Il sito potrebbe arrivare in futuro)
-
-- Visita /r/MemeInvestor_bot per domande o suggerimenti riguardo la versione originale di questo bot in uso su /r/meme_economy o supportali tramite il loro patreon: [patreon](https://www.patreon.com/memeinvestor_bot)
-
-- Nuovo utente? Ti senti perso e confuso? Rispondi `!aiuto` a questo messaggio, o visita la pagina [Wiki](https://www.reddit.com/r/BancaDelMeme/wiki/index) per una spiegazione più dettagliata.
-""" + TEMPLATE_HINT_ORG
-
-
-def modify_invest_place_here(amount, name):
-    return INVEST_PLACE_HERE.\
-               replace("%MEMECOIN%", format(int(amount), ",d")) + TEMPLATE_HINT_ORG.\
-               replace("%NAME%", name)
-
-
 INSIDE_TRADING_ORG = """
 Non puoi investire nei tuoi stessi meme! Non è consentito fare insider trading!
 """

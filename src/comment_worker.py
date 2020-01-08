@@ -422,9 +422,8 @@ class CommentWorker():
             return comment.reply_wrap(message.TEMPLATE_ALREADY_DONE)
 
         # If OP posted a template, replace the hint
-        edited_response = comment.parent().body.replace(
-            message.TEMPLATE_HINT_ORG.replace("%NAME%", f"u/{comment.author.name}"), '')
-        edited_response += message.modify_template_op(link, f"u/{comment.author.name}")
+        edited_response = message.modify_template_op(link, f"u/{comment.author.name}")
+        edited_response += message.INVEST_PLACE_HERE_NO_FEE
 
         comment.parent().edit_wrap(edited_response)
         return comment.reply_wrap(message.TEMPLATE_SUCCESS)
@@ -1057,4 +1056,4 @@ def max_execs_for_rank(rank):
     # level 2 = 4
     # level 3 = 8
     # etc.
-    return int(2**(rank + 1))
+    return int(2 ** (rank + 1))
