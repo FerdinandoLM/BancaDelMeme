@@ -325,9 +325,7 @@ Per prevenire spam e altri catastrofi naturali, considero solamente risposte a q
 
 ---
 
-- Visita [BancaDelMeme](/r/BancaDelMeme) per aiuto, statistiche di MeMercato Azionario, e profili degli investitori. (Il sito potrebbe arrivare in futuro)
-
-- Visita /r/MemeInvestor_bot per domande o suggerimenti riguardo la versione originale di questo bot in uso su /r/meme_economy o supportali tramite il loro patreon: [patreon](https://www.patreon.com/memeinvestor_bot)
+- Visita [BancaDelMeme](/r/BancaDelMeme) per aiuto, statistiche di MeMercato Azionario, e profili degli investitori.
 
 - Nuovo utente? Ti senti perso e confuso? Rispondi `!aiuto` a questo messaggio, o visita la pagina [Wiki](https://www.reddit.com/r/BancaDelMeme/wiki/index) per una spiegazione più dettagliata.
 """
