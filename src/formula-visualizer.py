@@ -35,7 +35,7 @@ def main():
         plt.plot(x, y)
 
     ax.grid(color='k', alpha=0.15, which='major')
-    ax.set_ylim([0, 5.5])
+    ax.set_ylim([0, 3])
 
     plt.legend(list(olds))
     plt.title('Return factor')
@@ -65,7 +65,7 @@ def main():
         plt.plot(x, y)
 
     ax.grid(color='k', alpha=0.15, which='major')
-    ax.set_ylim([0, 5.5])
+    ax.set_ylim([0, 3])
 
     plt.legend(list(olds))
     plt.title('Return factor')
@@ -78,7 +78,7 @@ def main():
     # Upper right subplot
     ax = plt.subplot2grid((6, 2), (0, 1), rowspan=1, colspan=1)
 
-    olds = range(0, 200)
+    olds = range(0, 100)
 
     x = []
     y = []
@@ -100,7 +100,7 @@ def main():
     # Upper right subplot
     ax = plt.subplot2grid((6, 2), (1, 1), rowspan=1, colspan=1)
 
-    olds = range(0, 200)
+    olds = range(0, 100)
 
     x = []
     y = []
@@ -121,7 +121,7 @@ def main():
     # Upper right subplot
     ax = plt.subplot2grid((6, 2), (2, 1), rowspan=1, colspan=1)
 
-    olds = range(0, 200)
+    olds = range(0, 100)
 
     x = []
     y = []
@@ -194,13 +194,14 @@ def main():
     # Bottom right subplot
     ax = plt.subplot2grid((6, 2), (3, 1), rowspan=3, colspan=2)
 
-    olds = range(0, 200, 1)
+    olds = range(0, 100, 1)
     min_n = 0
-    max_n = 10000
+    max_n = 200
+    ax.set_ylim([min_n, max_n])
 
     xy = []
     x2y2 = []
-    mult_threshs = [1, 1.25, 1.5, 2, 3, 4, 5]
+    mult_threshs = [1, 1.25, 1.5, 2, 2.5]
     for M in mult_threshs:
         x = []
         y = []
@@ -222,11 +223,11 @@ def main():
         plt.plot(x, y)
 
     ax.legend(['break-even','1.25x','1.5x','x2','x3','x4','x5'])
-
     plt.grid(color='k', alpha=0.15, which='major')
-    plt.title('1-8 Factor thresholds')
+    plt.title('1-2 Factor thresholds')
     plt.xlabel('old')
     plt.ylabel('delta')
+    
 
     plt.tight_layout()
     fig.set_size_inches(18, 18)

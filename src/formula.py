@@ -54,14 +54,14 @@ def sigmoid(x, maxvalue, midpoint, steepness):
 
 MAX_A = 1.2
 MAX_B = 1.7
-MAX_C = 7
+MAX_C = 30
 
 
 def sigmoid_max(old):
     return MAX_A + MAX_B / ((old / MAX_C) + 1)
 
 
-MID_A = 20
+MID_A = 30
 MID_B = 500
 MID_M = 25000
 
@@ -71,7 +71,7 @@ def sigmoid_midpoint(old):
 
 
 STEEP_A = 0.05
-STEEP_C = 100
+STEEP_C = 400
 
 
 def sigmoid_steepness(old):
