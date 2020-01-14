@@ -198,7 +198,6 @@ HELP_ORG = """
 Io sono un bot che vi aiuterà ad investire in *MEME* e farci una fortuna. Mica come le criptovalute.
 
 Ecco una lista di tutti i comandi che funzionano con me:
-Here is a list of commands that summon me:
 
 ### COMANDI GENERALI
 - `!attivi` - Mostra gli investimenti attivi
@@ -214,6 +213,9 @@ Here is a list of commands that summon me:
 - `!template https://imgur.com/...` **(solo per OP, utile per linkare i template)**
 
 Per avere aiuto su un singolo comando, semplicemente scrivi `!aiuto`
+
+Per altre informazioni e più dettagli,
+fai riferimento al [regolamento](https://www.reddit.com/r/BancaDelMeme/wiki/regolamento).
 """
 
 BALANCE_ORG = """
