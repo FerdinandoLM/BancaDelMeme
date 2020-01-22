@@ -96,14 +96,14 @@ class CommentWorker():
     the commands and it has methods to execute on demand
     """
     multipliers = {
-        'k': 1e3,
-        'm': 1e6,
-        'b': 1e9,
-        't': 1e12,
-        'quad': 1e15,
+        'k': int(1e3),
+        'm': int(1e6),
+        'b': int(1e9),
+        't': int(1e12),
+        'quad': int(1e15),
         # Has to be above q, or regex will stop at q instead of searching for quin/quad
-        'quin': 1e18,
-        'q': 1e15,
+        'quin': int(1e18),
+        'q': int(1e15),
         '%': '%'
     }
 
@@ -270,7 +270,7 @@ class CommentWorker():
 
         # Create new investor account
         sess.add(Investor(name=author))
-        # TODO: Make the initial balance a constant
+        # TODO: Make the initial balance a constantconstant
         return comment.reply_wrap(message.modify_create(comment.author, config.STARTING_BALANCE))
 
     @req_user

@@ -47,6 +47,13 @@ class TestInvest(Test):
         self.assertEqual(len(replies), 1)
         self.assertEqual(replies[0].body, message.modify_invest(1000, 100, 0))
 
+    def test_invest_100_percent(self):
+        self.command('!create')
+
+        replies = self.command('!investi 1k')
+        self.assertEqual(len(replies), 1)
+        self.assertEqual(replies[0].body, message.modify_invest(1000, 100, 0))
+
     def test_invest_50_percent(self):
         self.command('!create')
 
