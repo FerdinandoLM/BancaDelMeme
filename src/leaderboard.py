@@ -21,9 +21,15 @@ sidebar_text_org = """
 **Migliori utenti:**
 
 %TOP_USERS%  
-&nbsp;
+
+
+**Migliori autori di OC:**
+
+%TOP_OC%  
+
 Ultimo aggiornamento: %LOCALTIME%
-&nbsp;
+
+
 
 ^(Questo sub non è ***solo*** per templates. È rivolto a tutti i meme (in italiano), il tutto arricchito con un po' di sano gioco dei mercati)
 
@@ -89,8 +95,8 @@ def main():
                          user_agent=config.USER_AGENT)
 
     # We will test our reddit connection here
-    if not utils.test_reddit_connection(reddit):
-        exit()
+    if not config.TEST and not utils.test_reddit_connection(reddit):
+       exit()
 
     sess = session_maker()
 
@@ -103,26 +109,62 @@ def main():
         limit(10).\
         all()
 
-    top_users_text = "Rank|User|Net Worth\n"
+    top_users_text = ".|Utente|Patrimonio\n"
     top_users_text += ":-:|:-:|:-:\n"
     for i, user in enumerate(top_users):
         top_users_text += f"{i + 1}|/u/{user.name}|{formatNumber(user.networth)} M€\n"
+
+    top_users_text += """
+
+[Classifica completa](/r/BancaDelMeme/wiki/leaderboardbig)"""
 
     sidebar_text = sidebar_text_org.\
         replace("%TOP_USERS%", top_users_text).\
         replace("%LOCALTIME%", localtime)
 
+    # redesign
+    if not config.TEST:
+        for subreddit in config.SUBREDDITS:
+            for widget in reddit.subreddit(subreddit).widgets.sidebar:
+                if isinstance(widget, praw.models.TextArea):
+                    if widget.shortName.lower() == 'top10':
+                        widget.mod.update(text=top_users_text)
+                        break
+
+    top_poster = sess.execute("""
+    SELECT  m.name,
+            count(distinct m.id) as nums,
+            sum(m.final_upvotes) as sums,
+            count(distinct o.id),
+            sum(o.final_upvotes)
+    FROM "Buyables" as m
+    LEFT JOIN "Buyables" as o ON m.name = o.name AND o.done = 1 AND o.time > :since
+    WHERE m.oc = 1 AND m.done = 1 AND m.time > :since
+    GROUP BY m.name
+    ORDER BY nums DESC, sums DESC
+    LIMIT :limit""", {"since": 1579020536, "limit": 5})
+
+    top_poster_text = "Autore|#OC|Karma|\n"
+    top_poster_text += ":-:|:-:|:-:|:-:|:-:\n"
+    for poster in top_poster:
+        top_poster_text += f"/u/{poster[0]}|{poster[1]}|{poster[2]}\n"
+    sidebar_text = sidebar_text.\
+        replace("%TOP_OC%", top_poster_text)
+    if not config.TEST:
+    # redesign
+        for subreddit in config.SUBREDDITS:
+            for widget in reddit.subreddit(subreddit).widgets.sidebar:
+                if isinstance(widget, praw.models.TextArea):
+                    if widget.shortName.lower() == 'migliori autori':
+                        widget.mod.update(text=top_poster_text)
+                        break
+
+    # Sidebar update
     logging.info(" -- Updating sidebar text to:")
     logging.info(sidebar_text)
-    for subreddit in config.SUBREDDITS:
-        reddit.subreddit(subreddit).mod.update(description=sidebar_text)
-    # redesign
-    for subreddit in config.SUBREDDITS:
-        for widget in reddit.subreddit(subreddit).widgets.sidebar:
-            if isinstance(widget, praw.models.TextArea):
-                if widget.shortName.lower() == 'top10':
-                    widget.mod.update(text=top_users_text)
-                    break
+    if not config.TEST:
+        for subreddit in config.SUBREDDITS:
+            reddit.subreddit(subreddit).mod.update(description=sidebar_text)
 
     sess.commit()
 
