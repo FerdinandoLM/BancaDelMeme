@@ -132,22 +132,22 @@ def main():
                         break
 
     top_poster = sess.execute("""
-    SELECT  m.name,
-            count(distinct m.id) as nums,
-            sum(m.final_upvotes) as sums,
-            count(distinct o.id),
-            sum(o.final_upvotes)
-    FROM "Buyables" as m
-    LEFT JOIN "Buyables" as o ON m.name = o.name AND o.done = 1 AND o.time > :since
-    WHERE m.oc = 1 AND m.done = 1 AND m.time > :since
-    GROUP BY m.name
-    ORDER BY nums DESC, sums DESC
+    SELECT  name,
+            SUM(oc) AS coc,
+            SUM(CASE OC WHEN 1 THEN final_upvotes ELSE 0 END) AS soc
+    FROM "Buyables"
+    WHERE done = 1 AND time > :since
+    GROUP BY name
+    ORDER BY coc DESC, soc DESC
     LIMIT :limit""", {"since": 1579020536, "limit": 5})
 
     top_poster_text = "Autore|#OC|Karma|\n"
     top_poster_text += ":-:|:-:|:-:|:-:|:-:\n"
     for poster in top_poster:
         top_poster_text += f"/u/{poster[0]}|{poster[1]}|{poster[2]}\n"
+    top_poster_text += """
+
+[Classifica completa](/r/BancaDelMeme/wiki/leaderboardocbig)"""
     sidebar_text = sidebar_text.\
         replace("%TOP_OC%", top_poster_text)
     if not config.TEST:
