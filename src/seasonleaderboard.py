@@ -1,4 +1,4 @@
-# TODO: add docstrin here
+"""Script to write a txt file with the full leaderboard a the and of a season"""
 import logging
 import time
 
@@ -17,8 +17,6 @@ localtime = time.strftime('{%Y-%m-%d %H:%M:%S}')
 # TODO: add docstring
 def main():
     logging.info("Starting leaderboard...")
-    logging.info("Sleeping for 8 seconds. Waiting for the database to turn on...")
-    time.sleep(8)
 
     engine = create_engine(config.DB, pool_recycle=60, pool_pre_ping=True)
     session_maker = sessionmaker(bind=engine)

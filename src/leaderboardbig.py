@@ -1,4 +1,4 @@
-# TODO: add docstrin here
+"""Script to update wiki pages with investor and oc poster leaderboard."""
 import logging
 import time
 
@@ -88,7 +88,7 @@ def main():
     FROM "Buyables"
     WHERE done = 1 AND time > :since
     GROUP BY name
-    ORDER BY coc DESC, soc DESC""",
+    ORDER BY coc DESC, soc DESC, ct DESC, st DESC""",
         {"since": 1579020536},
     )
 
