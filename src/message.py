@@ -204,18 +204,19 @@ Ecco una lista di tutti i comandi che funzionano con me:
 - `!saldo` - Mostra quanti Mem€ si hanno ancora da spendere
 - `!bancarotta` - Da usare se si scende sotto i 100 Mem€
 - `!crea` - Crea un conto di investimento
-- `!aiuto` - Mostra questo messaggio 
+- `!aiuto` - Mostra questo messaggio
 - `!investi <quantità>` - Permette di investire i propri Mem€
 - `!investitutto` - Permette di investire tutti i propri Mem€
 - `!mercato` - Mostra il MeMercato Azionario attuale
-- `!top` - Mostra i migliori investitori 
+- `!top` - Mostra i migliori investitori
+- `!vendi` - Chiude in anticipo gli investimenti in quel topic (con penalità)
 - `!versione` - Mostra la versione attuale del bot
 - `!template https://imgur.com/...` **(solo per OP, utile per linkare i template)**
 
 Per avere aiuto su un singolo comando, semplicemente scrivi `!aiuto`
 
 Per altre informazioni e più dettagli,
-fai riferimento al [regolamento](https://www.reddit.com/r/BancaDelMeme/wiki/regolamento).
+fai riferimento alla [spiegazione estesa](https://www.reddit.com/r/BancaDelMeme/wiki/regolamento).
 """
 
 BALANCE_ORG = """
