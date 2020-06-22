@@ -1015,7 +1015,7 @@ class CommentWorker():
 
         for investment in investments:
             investment.time = int(time.time()) - config.INVESTMENT_DURATION
-            if not comment.submission.author:
+            if comment.submission.author:
                 # no taxes on deleted submissions
                 remaining = config.INVESTMENT_DURATION - int(time.time()) + investment.time
                 tax = remaining / 60 / 60 / 100  # 1% every hour
