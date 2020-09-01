@@ -31,8 +31,13 @@ class Test(unittest.TestCase):
         sess.query(Investor).delete()
         sess.commit()
 
-    def command(self, command, username='testuser', post='testpost'):
-        comment = Comment(post + '/id', username, command, Submission(post))
+    def command(self, command, username='testuser', post='testpost', lcomment=None, lpost=None):
+        submission = Submission(post)
+        if lpost:
+            lpost(submission)
+        comment = Comment(post + '/id', username, command, submission)
+        if lcomment:
+            lcomment(comment)
         self.worker(comment)
         return comment.replies
 

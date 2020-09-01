@@ -825,7 +825,8 @@ Puoi trovare la lista dei tuoi investimenti conclusi sulla [tua pagina wiki](htt
 """
 
 SELL_INVESTMENTS = """
-I{il} tuo{tuo} investiment{agg} {verb} stat{agg} tassat{agg} e chius{agg}.
+I{il} tuo{tuo} investiment{agg} {verb} stat{agg} decrementat{agg} di {taxes} Mem€ e chius{agg}.
+
 
 A breve i{il} comment{agg} verr{verr} aggiornat{agg} con il risultato.
 """
@@ -833,13 +834,14 @@ A breve i{il} comment{agg} verr{verr} aggiornat{agg} con il risultato.
 SELL_NO_INVESTMENTS = """
 Nessun investimento attivo trovato in questo post"""
 
-def modify_sell_investment(num_investments):
+def modify_sell_investment(num_investments, taxes):
     if num_investments < 1:
         return SELL_NO_INVESTMENTS
-    endings = {'il': 'l', 'agg': 'o', 'verb': 'è', 'tuo': '', 'verr': 'à'}
+    params = {'il': 'l', 'agg': 'o', 'verb': 'è', 'tuo': '', 'verr': 'à'}
     if num_investments > 1:
-        endings = {'il': '', 'agg': 'i', 'verb': 'sono', 'tuo': 'i', 'verr': 'anno'}
-    return SELL_INVESTMENTS.format(**endings)
+        params = {'il': '', 'agg': 'i', 'verb': 'sono', 'tuo': 'i', 'verr': 'anno'}
+    params['taxes'] = utils.formatNumber(taxes)
+    return SELL_INVESTMENTS.format(**params)
 
 def modify_oc_return(profit):
     return """\n\n---\n\nGrazie del tuo OC!  

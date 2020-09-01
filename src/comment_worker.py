@@ -1013,17 +1013,20 @@ class CommentWorker():
             order_by(Investment.time).\
             all()
 
+        taxes = 0
         for investment in investments:
-            investment.time = int(time.time()) - config.INVESTMENT_DURATION
-            if comment.submission.author:
+            if comment.submission.author and not comment.submission.removed:
                 # no taxes on deleted submissions
                 remaining = config.INVESTMENT_DURATION - int(time.time()) + investment.time
-                tax = remaining / 60 / 60 / 100  # 1% every hour
+                tax = min(99, pow(remaining / 60 / 60, 1.5)) / 100  # (1% every hour)^1.5 - max 99%
+                taxes += investment.amount - round(investment.amount - investment.amount * tax)
                 investment.amount = round(investment.amount - investment.amount * tax)
+            # expire investment time (update it in the past)
+            investment.time = int(time.time()) - config.INVESTMENT_DURATION
 
         sess.commit()
 
-        return comment.reply_wrap(message.modify_sell_investment(len(investments)))
+        return comment.reply_wrap(message.modify_sell_investment(len(investments), taxes))
 
     @req_user
     def investitutto(self, sess, comment, investor):
