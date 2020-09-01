@@ -48,6 +48,10 @@ class Investment(Base):
 
     __table_args__ = (Index("ix_Investments_name_done", "name", "done"), )
 
+    def __str__(self):
+        return (
+            "Investment(" + ", ".join(["{}={!r}".format(k, v) for k, v in self.__dict__.items()]) + ")"
+        )
 
 class Investor(Base):
     """
@@ -69,6 +73,10 @@ class Investor(Base):
         return self.balance + (sess.query(func.sum(Investment.amount)).filter(
             Investment.name == self.name).filter(Investment.done == 0).first()[0] or 0)
 
+    def __str__(self):
+        return (
+            "Investor(" + ", ".join(["{}={!r}".format(k, v) for k, v in self.__dict__.items()]) + ")"
+        )
 
 class Firm(Base):
     __tablename__ = "Firms"
@@ -107,3 +115,8 @@ class Buyable(Base):
     name = Column(String(20), nullable=False, index=True)
     final_upvotes = Column(Integer)
     profit = Column(BigInteger, default=0)
+
+    def __str__(self):
+        return (
+            "Buyable(" + ", ".join(["{}={!r}".format(k, v) for k, v in self.__dict__.items()]) + ")"
+        )
