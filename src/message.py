@@ -14,6 +14,9 @@ CREATE_ORG = """
 Grazie %USERNAME% per aver creato un conto /r/BancaDelMeme!
 
 Il tuo saldo iniziale è **%BALANCE% Mem€**.
+
+Per maggiori informazioni dai un'occhiata alla
+[guida di benvenuto](/r/BancaDelMeme/wiki/config/welcome_message).
 """
 
 
