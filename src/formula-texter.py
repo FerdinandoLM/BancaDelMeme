@@ -29,7 +29,7 @@ def find_threshold(fixed_b, min_a, max_a, target):
 
 def main():
     startings = [1, 5, 10, 20, 50]
-    limit = 200
+    limit = 230
     deltas = [2, 5, 10, 20]
     threshs = [1, 1.25, 1.5, 2, 2.5]
     min_n = 0

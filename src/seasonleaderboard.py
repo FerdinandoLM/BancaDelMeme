@@ -36,7 +36,7 @@ def main():
     for i, user in enumerate(top_users):
         top_users_text += f"{i + 1}|/u/{user.name}|{formatNumber(user.networth)} M€\n"
 
-    with open('stagione03.txt', 'wt') as oo:
+    with open('stagione.txt', 'wt') as oo:
         oo.write(top_users_text)
 
     sess.close()
